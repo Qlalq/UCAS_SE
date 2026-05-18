@@ -1,0 +1,3 @@
+十二、日志管理 01 配置日志暴露: blocked
+十二、日志管理 02 配置日志轮转: blocked
+十二、日志管理 03 配置Fail2ban: blocked

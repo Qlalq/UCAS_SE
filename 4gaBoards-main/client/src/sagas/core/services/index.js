@@ -1,0 +1,47 @@
+import activities from './activities';
+import apiClients from './api-clients';
+import attachments from './attachments';
+import boardMemberships from './board-memberships';
+import boardTemplates from './board-templates';
+import boards from './boards';
+import cards from './cards';
+import comments from './comments';
+import core from './core';
+import labels from './labels';
+import lists from './lists';
+import mailTokens from './mail-tokens';
+import modals from './modals';
+import notifications from './notifications';
+import projectManagers from './project-managers';
+import projectMemberships from './project-memberships';
+import projects from './projects';
+import router from './router';
+import socket from './socket';
+import tasks from './tasks';
+import userPrefs from './user-prefs';
+import users from './users';
+
+export default {
+  ...activities,
+  ...apiClients,
+  ...attachments,
+  ...boardTemplates,
+  ...boardMemberships,
+  ...boards,
+  ...cards,
+  ...comments,
+  ...core,
+  ...labels,
+  ...lists,
+  ...mailTokens,
+  ...modals,
+  ...notifications,
+  ...projectManagers,
+  ...projectMemberships,
+  ...projects,
+  ...router,
+  ...socket,
+  ...tasks,
+  ...userPrefs,
+  ...users,
+};

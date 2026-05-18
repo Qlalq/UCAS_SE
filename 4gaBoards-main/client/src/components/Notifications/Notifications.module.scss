@@ -1,0 +1,152 @@
+:global(#app) {
+  .item {
+    display: flex;
+    border-bottom: 1px solid var(--borderSubtle);
+
+    &:hover {
+      background: var(--backgroundPopupHover);
+    }
+  }
+
+  .wrapper {
+    padding: 6px 12px 10px 8px;
+    flex: 1;
+  }
+
+  .itemFullScreen {
+    &:hover {
+      background: var(--backgroundNotificationHover);
+    }
+  }
+
+  .itemRead {
+    opacity: 0.5;
+  }
+
+  .itemHeader {
+    display: flex;
+    align-items: center;
+    margin-bottom: 4px;
+  }
+
+  .firstItemButton {
+    margin-left: auto;
+  }
+
+  .itemButton {
+    svg {
+      fill: var(--text3);
+    }
+
+    &:hover {
+      svg {
+        fill: var(--text4);
+      }
+    }
+  }
+
+  .user {
+    display: inline-block;
+    padding: 0 8px 0 0;
+    vertical-align: top;
+  }
+
+  .systemUser {
+    padding-right: 6px;
+  }
+
+  .author {
+    color: var(--text0);
+    display: inline-block;
+    font-weight: bold;
+    line-height: 20px;
+    margin-right: 8px;
+    padding: 6px 0px 4px 0px;
+  }
+
+  .date {
+    color: var(--text3);
+    display: inline-block;
+    font-size: 12px;
+    line-height: 20px;
+    margin-right: 8px;
+  }
+
+  .systemTag {
+    display: inline-block;
+    line-height: 20px;
+    font-style: italic;
+    margin-right: 8px;
+    font-size: 12px;
+    color: var(--text3);
+  }
+
+  .board {
+    padding-left: 12px;
+    margin-left: auto;
+  }
+
+  .project {
+    margin: 0 12px 0 4px;
+
+    &::before {
+      content: '•';
+      display: inline-block;
+      margin-right: 4px;
+      vertical-align: middle;
+      color: var(--text3);
+    }
+  }
+
+  .itemContent {
+    display: inline-block;
+    font-size: 13px;
+    overflow: hidden;
+    padding: 0 2px;
+    overflow-wrap: anywhere;
+    color: var(--text2);
+  }
+
+  .systemTitle {
+    display: block;
+    font-weight: bold;
+    color: var(--text1);
+    padding: 0 2px 2px;
+  }
+
+  .systemContent {
+    display: block;
+    font-size: 13px;
+    overflow: hidden;
+    padding: 0 2px;
+    overflow-wrap: anywhere;
+    color: var(--text2);
+  }
+
+  .link {
+    color: var(--text2);
+    text-decoration: underline;
+
+    &:hover {
+      color: var(--text3);
+    }
+  }
+
+  .systemNotificationResponseWrapper {
+    padding: 6px 2px 2px 2px;
+  }
+
+  .answers {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px;
+  }
+
+  .answer {
+    font-size: 12px;
+    padding: 4px 8px;
+    width: auto;
+    flex: 1 0 auto;
+    text-align: center;
+  }
+}

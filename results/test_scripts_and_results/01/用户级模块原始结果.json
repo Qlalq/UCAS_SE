@@ -1,0 +1,232 @@
+{
+  "runId": "1780040693245-44mwjn",
+  "navigationCount": 7,
+  "navigationLog": [
+    "initial register page: https://demo.4gaboards.com/register",
+    "admin users settings: https://demo.4gaboards.com/settings/users",
+    "unauthorized board: https://demo.4gaboards.com/boards/1785508839664125797",
+    "authorized board: https://demo.4gaboards.com/boards/1785509071198095220",
+    "login page for sso: https://demo.4gaboards.com/login",
+    "sso reset before Continue with Microsoft: https://demo.4gaboards.com/login",
+    "sso reset before Continue with GitHub: https://demo.4gaboards.com/login"
+  ],
+  "results": [
+    {
+      "caseNo": "01",
+      "name": "用户注册（邮箱+密码）",
+      "status": "pass",
+      "given": [
+        "用户在注册页面"
+      ],
+      "when": [
+        "提交有效邮箱和密码"
+      ],
+      "expectation": "成功创建账户，可登录",
+      "actual": "注册接口成功，且新账号可通过登录接口获取访问令牌。",
+      "evidence": [
+        "注册邮箱：user_module_register_1780040693245-44mwjn@example.com",
+        "注册后页面 URL：https://demo.4gaboards.com/",
+        "注册后页面文本摘录："
+      ],
+      "apiEvidence": [
+        "POST /api/register 返回 200，响应体：{\"item\":\"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCIsImtpZCI6IjVmNGVhOTdkLTc2ZmItNDlmOS04MzgzLTk3OWY0ZWRhZmUwOCJ9.eyJpYXQiOjE3ODAwNDA3MTgsInN1YiI6IjE3ODU1MDc4MjEwMzU0NTYzMzciLCJleHAiOjE4MTE1NzY3MTh9.nuH3RaD-geoqI1GnHoperOFpG758zDAVGbISSJAOdKE\"}",
+        "使用新账号调用 POST /api/access-tokens 可获取 token：true"
+      ],
+      "screenshots": [
+        "D:\\workspace\\claude\\lecture\\SE\\results\\01-用户级模块\\screenshots\\01-register-filled.png",
+        "D:\\workspace\\claude\\lecture\\SE\\results\\01-用户级模块\\screenshots\\01-after-register.png"
+      ]
+    },
+    {
+      "caseNo": "02",
+      "name": "空密码注册",
+      "status": "pass",
+      "given": [
+        "用户在注册页面"
+      ],
+      "when": [
+        "提交邮箱但密码为空"
+      ],
+      "expectation": "拒绝，提示密码必填",
+      "actual": "前端拒绝提交并聚焦密码字段；页面存在密码错误提示/样式。",
+      "evidence": [
+        "点击提交后仍停留在：https://demo.4gaboards.com/register",
+        "提交后焦点字段：password",
+        "密码输入框错误样式：true",
+        "页面可见文本摘录：Create your account\nEmail\nPassword\nAccept Terms of Service and Privacy Policy\nRegister\nOR\nContinue with Google\nContinue with Microsoft\nContinue with GitHub\nAlready a user?\nBack to login page"
+      ],
+      "apiEvidence": [
+        "页面点击未产生 /api/register 请求：true",
+        "直接调用 POST /api/register 且 password 为空返回 400，响应体：{\"code\":\"E_MISSING_OR_INVALID_PARAMS\",\"problems\":[\"Invalid \\\"password\\\":  Cannot use '' (empty string) for a required input.\"],\"message\":\"The server could not fulfill this request (`POST /api/register`) due to 1 missing or invalid parameter.\"}"
+      ],
+      "screenshots": [
+        "D:\\workspace\\claude\\lecture\\SE\\results\\01-用户级模块\\screenshots\\02-empty-password-form.png",
+        "D:\\workspace\\claude\\lecture\\SE\\results\\01-用户级模块\\screenshots\\02-empty-password-after-submit.png"
+      ]
+    },
+    {
+      "caseNo": "03",
+      "name": "SSO登录",
+      "status": "pass",
+      "given": [
+        "系统已配置SSO提供商"
+      ],
+      "when": [
+        "用户选择SSO方式登录"
+      ],
+      "expectation": "支持4种SSO提供商完成登录",
+      "actual": "登录页显示 3 个 SSO 按钮；实际点击 3 个，3 个点击后发生跳转或进入认证流程。公开配置中原生 provider 1 个，OIDC 方法 3 个。",
+      "evidence": [
+        "登录页 SSO 按钮 title：[\"Continue with Google\",\"Continue with Microsoft\",\"Continue with GitHub\"]",
+        "登录页 SSO 按钮文本：[\"Continue with Google\",\"Continue with Microsoft\",\"Continue with GitHub\"]",
+        "demoMode：true",
+        "Continue with Google 点击后 URL：https://accounts.google.com/v3/signin/identifier?opparams=%253Fkc_idp_hint%253Dgoogle&dsh=S-2011901178%3A1780040878552895&client_id=470672482817-dn2of7udpl80971ec59qenv5v4teb0dr.apps.googleusercontent.com&nonce=3a9498789bd3d196d0d5d75704438251&o2v=2&prompt=select_account&redirect_uri=https%3A%2F%2Foidcproxy.4gaboards.com%2Fcallback&response_type=code&scope=openid+profile+email&service=lso&state=1232e52bd10f15fe04670d7fa3e30c90&flowName=GeneralOAuthFlow&continue=https%3A%2F%2Faccounts.google.com%2Fsignin%2Foauth%2Fconsent%3Fauthuser%3Dunknown%26part%3DAJi8hAM2MPb6Qs21TUIf2VLoVLxxnA4MjJN6bXv2CSgjQysHtw75avKnpLrv1gz8K_V-FY7rKhdo3fDqwGYZgZ9YilVateJ48wpKhPngIy3S9BsBnJR3c6dl6M9WoYIRi4TLU4nuOWVuwonUN3puJ9qOtQq_2NkHQLiMAhdtt_tNhxy0du3J4puH5dF0eRwRNnns5SNKFJiyMzEBE3Apk1P62peipPTSJOqTe-tVLGOmI6fkZbcfzWxjAewgO1amFaAcM6U9foSFcCaaO5uN9QWzyVJaiEejdzq9LeKz1bCOtiEBI9mvjwpyoP2LcGwUZrEWfhDc0oxgawtmRbRDz6LQgbsQPq6lD0JvtUhSdnsa6sAVx4j-v_dXxUgDjDA3YYXQg8bM2TycTAJebvnwJOy1xjmDwclDYqYOe-X2VWbY8PsTFlRr_t0FI7ApkCTe4iaXwAQYqJzN71VCdy-NOg6KCJOdbZVjTmrdzF6ZXFMcdzicf_7vUt0%26flowName%3DGeneralOAuthFlow%26as%3DS-2011901178%253A1780040878552895%26client_id%3D470672482817-dn2of7udpl80971ec59qenv5v4teb0dr.apps.googleusercontent.com%26requestPath%3D%252Fsignin%252Foauth%252Fconsent%23&app_domain=https%3A%2F%2Foidcproxy.4gaboards.com&rart=ANgoxcckRZj4t8a2iONNT3Jc_lE-tl0rW5y1MBHHTivMTTjzpRKjrXm7wqPDclXizFMkVSLxdM_OkzL3Fm20Sf1U64YO5PsPRUq2AeaJvYdwQs87RIKtcYQ",
+        "Continue with Google 点击后文本摘录：正在加载\n使用 Google 账号登录\n登录\n继续前往4ga Boards\n邮箱或电话号码\n忘记了邮箱？\n建议您在使用“4ga Boards”之前，先阅读此应用的《隐私权政策》和《服务条款》。\n下一步\n创建账号\n简体中文\n帮助\n隐私权\n条款",
+        "Continue with Microsoft 点击后 URL：https://login.microsoftonline.com/common/oauth2/v2.0/authorize?client_id=f4dc3f7d-bb47-4a16-a122-ba4051895acc&response_type=code&redirect_uri=https%3A%2F%2Foidcproxy.4gaboards.com%2Fcallback&scope=openid+profile+email&state=cf642e3002362087ccedf39ec600d9ee&nonce=e65452a2b663970faf24397d9c314f95&kc_idp_hint=microsoft&prompt=login",
+        "Continue with Microsoft 点击后文本摘录：登录\n没有帐户? 创建一个!\n无法访问您的帐户?\n\t\n登录选项\n\n\n使用条款 隐私与 Cookie ...",
+        "Continue with GitHub 点击后 URL：https://github.com/login?client_id=Iv23liM1cwDNhSGtQZPj&return_to=%2Flogin%2Foauth%2Fauthorize%3Fclient_id%3DIv23liM1cwDNhSGtQZPj%26client_secret%3D06093b9ee491b73602671f9673718f6dd99724ea%26kc_idp_hint%3Dgithub%26nonce%3Deef3980d09d710efb8828d51a75c5d98%26redirect_uri%3Dhttps%253A%252F%252Foidcproxy.4gaboards.com%252Fcallback%26response_type%3Dcode%26scope%3Dopenid%2Bprofile%2Bemail%2Buser%253Aemail%26state%3D7829cfd6e3d2fc0f6f34bf3540ba6fa6",
+        "Continue with GitHub 点击后文本摘录：Skip to content\n\nSign in to GitHub\nto continue to 4ga Boards\n\nUsername or email address\nPassword\nForgot password?\nor\nContinue with Google\nContinue with Apple\n\nNew to GitHub? Create an account\n\nSign in with a passkey\n\nTerms\nPrivacy\nDocs\nContact GitHub Support\nManage cookies\nDo not share my personal information"
+      ],
+      "apiEvidence": [
+        "GET /api/core-settings-public 返回 200",
+        "ssoAvailable：{\"google\":false,\"github\":false,\"microsoft\":false,\"oidc\":true}",
+        "oidcEnabledMethods：[\"Google\",\"Microsoft\",\"GitHub\"]"
+      ],
+      "screenshots": [
+        "D:\\workspace\\claude\\lecture\\SE\\results\\01-用户级模块\\screenshots\\03-login-sso-options.png",
+        "D:\\workspace\\claude\\lecture\\SE\\results\\01-用户级模块\\screenshots\\03-after-click-google.png",
+        "D:\\workspace\\claude\\lecture\\SE\\results\\01-用户级模块\\screenshots\\03-after-click-microsoft.png",
+        "D:\\workspace\\claude\\lecture\\SE\\results\\01-用户级模块\\screenshots\\03-after-click-github.png"
+      ]
+    },
+    {
+      "caseNo": "04",
+      "name": "用户列表查看",
+      "status": "pass",
+      "given": [
+        "以管理员身份登录系统，进入实例设置"
+      ],
+      "when": [
+        "查看用户表格"
+      ],
+      "expectation": "显示用户相关信息",
+      "actual": "用户表格已显示，API 返回 365 个用户，页面可见关键用户字段。",
+      "evidence": [
+        "页面 URL：https://demo.4gaboards.com/settings/users",
+        "页面可见表头命中：Name, Username, Email, Admin, Last login",
+        "页面文本摘录：Settings: Users\nStar 4ga Boards on GitHub!\nYour support speeds up development\nWe'd love to hear your feedback!\nIt means a lot for us\n7\n测试\nSettings\nProfile\nPreferences\nAccount\nAuthentication\nAbout\nInstance Settings\nUsers\nSettings\nDashboard\nUsers (365)\n\nDemo Mode - some features affecting other users are disabled! Every new user receives admin privileges.\n\nName\nUsername\nAdmin\nEmail\nEmail Verification\nLast login\n0\n测试\n测试用户qianyongjie25 (You)\ntestuser_qyj\nqianyongjie25@mails.ucas.ac.cn\n28.05.2026 22:11\n0\n11\n1102290964\n-\n1102290964@qq.com\n27.05.2026 12:12\n0\n12\n1231\n-\n1231@12.fsaf\n26.05.2026 19:16\n0\n12\n1252895368\n-\n1252895368@qq.com\n25.05.2026 12:08\n0\n29\n2977043957\n-\n2977043957@qq.com\n28.05.2026 16:11\n0\n37\n375703131\n-\n375703131@qq.com\n25.05.2026 16:29\n0\n4g\n4ga\n-\n4ga@mojegalerie.pl\n28.05.2026 16:13\n0\n测试\n测试用户\n-\n3652750340@qq.com\n27.05.2026 12:54\n0\nAK\nAdam Kalinowski\n-\nkalinowskia223@gmail.com\n26.05.2026 22:57\n0\nA1\nAdmin Toggle Probe 1779747989175\n-\ncodexuser1779747989176@example.com\n-\n0\nAd\nadmin_4ga\n-\nadmin_4ga@test.com\n29.05.2026 03:23\n0\nAd\nadmin_test_20260529\n-\nadmin_test_20260529@example.com\n29.05.2026 01:53\n0\nAg\nagent_mpkrxgx5\n-\nagent_mpkrxgx5@example.com\n-\n0\nAg\nagent_mpkry1sj\n-\nagent_mpkry1sj@example.com\n25.05.2026 13:37\n0\nAg\nagent_mpkryo6n\n-\nagent_mpkryo6n@example.com\n25.05.2026 13:37\n0\nAg\nagent_mpkrzvoq\n-\nagent_mpkrzvoq@example.com\n25.05.2026 13:38\n0\nAg\nagent_mpks18z6\n-\nagent_mpks18z6@example.com\n25.05.2026 13:39\n0\nAg\nagent_mpks2lzv\n-\nagent_mpks2lzv@example.com\n25.05.2026 13:40\n0\nAP\nallow Probe\n-\nuser_module_allow_1780035291528-5i1u5k@example.com\n-\n0\nAP\nallow Probe\n-\nuser_module_allow_1780035677187-sjvbxn@example.com\n-\n0\nAP\nallow Probe\n-\nuser_module_allow_1780035939693-ogbvft@example.com\n-\n0\nAP\nallow Probe\n-\nuser_module_allow_1780036500360-7zw1cr@example.com\n-\n0\nAP\nallow Probe\n-\nuser_module_allow_1780037975999-vanpvb@example.com\n-\n0\nAP\nallow Probe\n-\nuser_module_allow_1780038401308-x80fvh@example.com\n-\n0\nAP\nallow Probe\n-\nuser_module_allow_1780038553514-h3z58p@example.com\n-\n0\nAP\nallow Probe\n-\nuser_module_allow_1780039706777-sngdfb@example.com\n-\n0\nAP\nallow Probe\n-\nuser_module_allow_1780039871675-nhmqqj@example.com\n-\n0\nA1\nAllow User 1779977688865-fgv0pw\na1779977688865fg\nallow_user_1779977688865-fgv0pw@example.com\n-\n0\nA1\nAllow User 1779977930869-pb8m7t\n-\nallow_user_1779977930869-pb8m7t@example.com\n28.05.2026 22:21\n0\nAI\nAmit Iyer\n-\namit.iyer1@gmail.com\n25.05.2026 23:48\n0\nAP\nAPI Register Probe\n-\napi_reg_1779977450686-ogwy3o@example.com\n-\n0\nA1\nAPI Share Probe 1779751277424\n-\ncodexuser1779751277424@example.com\n-\n0\nAS\nASASA\n-\nasasa@mail.ru\n26.05.2026 18:40\n0\nA1\nAuth User 1779749496560\n-\ncodexuser1779749496560@example.com\n26.05.2026 06:52\n0\nA1\nauthor 1779753294361\n-\nauthor-1779753294361@example.com\n-\n0\nA1\nauthor 1779753368302\n-\nauthor-1779753368302@example.com\n-\n0\nA1\nauthor 1779753516273\n-\nauthor-1779753516273@example.com\n-\n0\nA1\nauthor 1779753666394\n-\nauthor-1779753666394@example.com\n-\n0\nA1\nauthor 1779753835374\n-\nauthor-1779753835374@example.com\n-\n0\nA1\nauthor 1779753986367\n-\nauthor-1779753986367@example.com\n-\n0\nA1\nauthor 1779754278375\n-\nauthor-1779754278375@example.com\n-\n0\nC1\nCodex Probe 1779746635024\n-\ncodexprobe1779746635024@example.com\n-\n0\nC1\nCodex Probe 1779746677946\ncodexprobe\ncodexprobe1779746677946@example.com\n-\n0\nC1\nCodex Probe 1779746721164\ncodex123\ncodexprobe1779746721164@example.com\n-\n0\nC1\nCodex Probe 1779746765755\ncodexuser\ncodexprobe1779746765755@example.com\n-\n0\nC1\nCodex Probe 1779746840057\n-\ncodexprobe1779746840057@example.com\n-\n0\nC1\nCodex Probe 1779746936357\n-\ncodexprobe1779746936357@example.com\n-\n0\nC1\nCodex User 1779747078549\n-\ncodexuser1779747078549@example.com\n-\n0\nC1\nCodex User 1779748053639\n-\ncodexuser1779748053639@example.com\n-\n0\nC1\ncommenter-user 1779752893238\n-\ncommenter-user-1779752893238@example.com\n-\n0\nC1\ncommenter-user 1779753167827\n-\ncommenter-user-1779753167827@example.com\n-\n0\nCu\ncursor-demo-1779787001282\n-\ncursor-demo-1779787001282@example.com\n26.05.2026 17:16\n0\nDA\nDan A\n-\ndanyaal45@gmail.com\n26.05.2026 18:13\n0\nDD\nDemo Demo\ndemo\ndemo@demo.demo\n29.05.2026 13:19\n0\nD1\nDenied User 1779753261853\n-\ndenied-1779753261853@example.com\n-\n0\nD1\nDenied User 1779753349150\n-\ndenied-1779753349150@example.com\n-\n0\nD1\nDenied User 1779754187397\n-\ndenied-1779754187397@example.com\n-\n0\nDP\ndeny Probe\n-\nuser_module_deny_1780035291528-5i1u5k@example.com\n-\n0\nDP\ndeny Probe\n-\nuser_module_deny_1780035677187-sjvbxn@example.com\n-\n0\nDP\ndeny Probe\n-\nuser_module_deny_1780035939693-ogbvft@example.com\n-\n0\nDP\ndeny Probe\n-\nuser_module_deny_1780036500360-7zw1cr@example.com\n-\n0\nDP\ndeny Probe\n-\nuser_module_deny_1780037975999-vanpvb@example.com\n-\n0\nDP\ndeny Probe\n-\nuser_module_deny_1780038401308-x80fvh@example.com\n-\n0\nDP\ndeny Probe\n-\nuser_module_deny_1780038553514-h3z58p@example.com\n-\n0\nDP\ndeny Probe\n-\nuser_module_deny_1780039706777-sngdfb@example.com\n-\n0\nDP\ndeny Probe\n-\nuser_module_deny_1780039871675-nhmqqj@example.com\n-\n0\nD1\nDeny Probe 1779752223796\n-\ncodexuser1779752223796@example.com\n-\n0\nD1\nDeny User 1779977628044-vbq7q3\nd177997762..."
+      ],
+      "apiEvidence": [
+        "GET /api/users 返回 200，items 数量：365",
+        "首条用户字段：[\"id\",\"createdAt\",\"updatedAt\",\"email\",\"isAdmin\",\"isVerified\",\"name\",\"username\",\"phone\",\"organization\",\"ssoGoogleEmail\",\"ssoGithubUsername\"]"
+      ],
+      "screenshots": [
+        "D:\\workspace\\claude\\lecture\\SE\\results\\01-用户级模块\\screenshots\\04-users-settings.png"
+      ]
+    },
+    {
+      "caseNo": "05",
+      "name": "重复邮箱注册",
+      "status": "pass",
+      "given": [
+        "该邮箱已注册"
+      ],
+      "when": [
+        "再次使用同一邮箱注册"
+      ],
+      "expectation": "拒绝，提示邮箱已存在",
+      "actual": "系统拒绝重复邮箱注册，页面显示邮箱已被使用相关提示。",
+      "evidence": [
+        "重复邮箱：user_module_duplicate_1780040693245-44mwjn@example.com",
+        "页面文本摘录：Create your account\nEmail already in use\nEmail\nPassword\nAccept Terms of Service and Privacy Policy\nRegister\nOR\nContinue with Google\nContinue with Microsoft\nContinue with GitHub\nAlready a user?\nBack to login page"
+      ],
+      "apiEvidence": [
+        "首次注册返回 200，响应体：{\"item\":\"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCIsImtpZCI6IjRjMmVjMzEyLTBhYTQtNGVkNi05NGUzLTQ4ZjQxOTkxNDgxMiJ9.eyJpYXQiOjE3ODAwNDA3MTUsInN1YiI6IjE3ODU1MDc3OTYxODgzOTk0MzciLCJleHAiOjE4MTE1NzY3MTV9.4ZJcei4bhkAXdVyl3qQs8T_i9QCHPrN2W1mbyuoOPaI\"}",
+        "重复注册 POST /api/register 返回 409，响应体：{\"code\":\"E_CONFLICT\",\"message\":\"Email already in use\"}"
+      ],
+      "screenshots": [
+        "D:\\workspace\\claude\\lecture\\SE\\results\\01-用户级模块\\screenshots\\05-duplicate-before-submit.png",
+        "D:\\workspace\\claude\\lecture\\SE\\results\\01-用户级模块\\screenshots\\05-duplicate-after-submit.png"
+      ]
+    },
+    {
+      "caseNo": "06",
+      "name": "禁用注册后注册",
+      "status": "blocked",
+      "given": [
+        "管理员已关闭注册功能"
+      ],
+      "when": [
+        "新用户尝试注册"
+      ],
+      "expectation": "拒绝新用户注册",
+      "actual": "当前 demo 实例禁止管理员修改注册开关，无法模拟“已关闭注册功能”的 Given；关闭尝试失败后，新用户注册接口仍按当前配置执行。",
+      "evidence": [
+        "当前实例 demoMode：true",
+        "当前页面 URL：https://demo.4gaboards.com/settings/users"
+      ],
+      "apiEvidence": [
+        "禁用前 GET /api/core-settings-public：{\"ssoRegistrationEnabled\":true,\"localRegistrationEnabled\":true,\"registrationEnabled\":true,\"projectCreationAllEnabled\":true,\"syncSsoDataOnAuth\":false,\"syncSsoAdminOnAuth\":false,\"allowedRegisterDomains\":\"\",\"ssoUrls\":{\"google\":\"https://demo.4gaboards.com/auth/google\",\"github\":\"https://demo.4gaboards.com/auth/github\",\"microsoft\":\"https://demo.4gaboards.com/auth/microsoft\",\"oidc\":\"https://demo.4gaboards.com/auth/oidc\"},\"ssoAvailable\":{\"google\":false,\"github\":false,\"microsoft\":false,\"oidc\":true},\"oidcEnabledMethods\":[\"Google\",\"Microsoft\",\"GitHub\"],\"demoMode\":true,\"mailServiceAvailable\":true,\"mailServiceInboundEmail\":\"demo.4gaboards.com@inbound.4gaboards.com\",\"hyperdxEnabled\":false,\"hyperdxApiKey\":null,\"hyperdxInstanceName\":\"demo.4gaboards.com\",\"hyperdxTracePropagationTargets\":null,\"otelUrl\":null...",
+        "管理员 POST /api/core-settings 尝试关闭注册返回 403，响应体：{\"code\":\"E_FORBIDDEN\",\"message\":\"Insufficient permissions\"}",
+        "关闭尝试后 GET /api/core-settings-public：{\"ssoRegistrationEnabled\":true,\"localRegistrationEnabled\":true,\"registrationEnabled\":true,\"projectCreationAllEnabled\":true,\"syncSsoDataOnAuth\":false,\"syncSsoAdminOnAuth\":false,\"allowedRegisterDomains\":\"\",\"ssoUrls\":{\"google\":\"https://demo.4gaboards.com/auth/google\",\"github\":\"https://demo.4gaboards.com/auth/github\",\"microsoft\":\"https://demo.4gaboards.com/auth/microsoft\",\"oidc\":\"https://demo.4gaboards.com/auth/oidc\"},\"ssoAvailable\":{\"google\":false,\"github\":false,\"microsoft\":false,\"oidc\":true},\"oidcEnabledMethods\":[\"Google\",\"Microsoft\",\"GitHub\"],\"demoMode\":true,\"mailServiceAvailable\":true,\"mailServiceInboundEmail\":\"demo.4gaboards.com@inbound.4gaboards.com\",\"hyperdxEnabled\":false,\"hyperdxApiKey\":null,\"hyperdxInstanceName\":\"demo.4gaboards.com\",\"hyperdxTracePropagationTargets\":null,\"otelUrl\":null...",
+        "关闭尝试后新用户 POST /api/register 返回 200，响应体：{\"item\":\"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCIsImtpZCI6ImQ4MTA4ZmQ1LTU2NTYtNDU5NS05ZTczLWZmNzAyMDRkMGNmMCJ9.eyJpYXQiOjE3ODAwNDA4MzYsInN1YiI6IjE3ODU1MDg4MDU5MzM1MzMwMTYiLCJleHAiOjE4MTE1NzY4MzZ9.YrUgcc4hgJYN9JU1p0_hgqTZlME6EKfJoTpcCWWbP08\"}"
+      ],
+      "screenshots": [
+        "D:\\workspace\\claude\\lecture\\SE\\results\\01-用户级模块\\screenshots\\06-admin-current-page-after-disable-attempt.png"
+      ]
+    },
+    {
+      "caseNo": "07",
+      "name": "用户级别访问权限（拒绝访问）",
+      "status": "fail",
+      "given": [
+        "以用户身份登录系统",
+        "尝试访问未被添加的项目或看板"
+      ],
+      "when": [
+        "访问未授权项目和看板 URL"
+      ],
+      "expectation": "系统应拒绝访问，显示权限不足提示",
+      "actual": "系统拒绝了未授权访问，但页面显示 Not Found 类提示，未出现明确权限不足提示。",
+      "evidence": [
+        "未授权用户：user_module_deny_1780040693245-44mwjn@example.com",
+        "未授权项目/看板：user-module-deny-project-1780040693245-44mwjn / user-module-deny-board-1780040693245-44mwjn",
+        "看板页面文本摘录：Star 4ga Boards on GitHub!\nYour support speeds up development\nWe'd love to hear your feedback!\nIt means a lot for us\nDP\nP\nAdd Project\nBoard Not Found"
+      ],
+      "apiEvidence": [
+        "普通用户 GET /api/boards/1785508839664125797 返回 404，响应体：{\"code\":\"E_NOT_FOUND\",\"message\":\"Board not found\"}",
+        "普通用户 GET /api/projects/1785508834555463520 返回 404，响应体：{\"code\":\"E_NOT_FOUND\",\"message\":\"Project not found\"}"
+      ],
+      "screenshots": [
+        "D:\\workspace\\claude\\lecture\\SE\\results\\01-用户级模块\\screenshots\\07-unauthorized-board.png"
+      ]
+    },
+    {
+      "caseNo": "08",
+      "name": "用户级别访问权限（允许访问）",
+      "status": "pass",
+      "given": [
+        "以用户身份登录系统",
+        "访问已被添加的项目和看板"
+      ],
+      "when": [
+        "访问授权项目和看板 URL"
+      ],
+      "expectation": "系统应允许正常访问",
+      "actual": "已加入看板的普通用户可通过页面和接口正常访问项目/看板。",
+      "evidence": [
+        "授权用户：user_module_allow_1780040693245-44mwjn@example.com",
+        "授权项目/看板：user-module-allow-project-1780040693245-44mwjn / user-module-allow-board-1780040693245-44mwjn",
+        "看板页面文本摘录：user-module-allow-project-1780040693245-44mwjn\nStar 4ga Boards on GitHub!\nYour support speeds up development\nWe'd love to hear your feedback!\nIt means a lot for us\n1\nAP\nP\nuser-module-allow-project-1780040693245-44mwjn\n1\nuser-module-allow-board-1780040693245-44mwjn\n1\nAdd Project\nuser-module-allow-board-1780040693245-44mwjn\n0 cards\nAP\n测试"
+      ],
+      "apiEvidence": [
+        "管理员添加看板成员 membershipId：1785509081675466617",
+        "授权用户 GET /api/projects/1785509066500474735 返回 200",
+        "授权用户 GET /api/boards/1785509071198095220 返回 200"
+      ],
+      "screenshots": [
+        "D:\\workspace\\claude\\lecture\\SE\\results\\01-用户级模块\\screenshots\\08-authorized-board.png"
+      ]
+    }
+  ]
+}

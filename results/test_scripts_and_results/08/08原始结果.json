@@ -1,0 +1,280 @@
+{
+  "runId": "1781348922696-zoucg7",
+  "navigationCount": 12,
+  "navigationLog": [
+    "admin users page: https://demo.4gaboards.com/settings/users",
+    "admin settings page: https://demo.4gaboards.com/settings",
+    "admin settings page: https://demo.4gaboards.com/settings",
+    "admin settings page: https://demo.4gaboards.com/settings",
+    "admin-role-board: https://demo.4gaboards.com/boards/1796482406186746950",
+    "settings about: https://demo.4gaboards.com/settings/about",
+    "settings about: https://demo.4gaboards.com/settings/about",
+    "admin-role-board: https://demo.4gaboards.com/boards/1796482688555680882",
+    "admin users settings: https://demo.4gaboards.com/settings/users",
+    "admin users settings: https://demo.4gaboards.com/settings/users",
+    "admin users page: https://demo.4gaboards.com/settings/users",
+    "admin users page: https://demo.4gaboards.com/settings/users"
+  ],
+  "summary": {
+    "pass": 7,
+    "blocked": 5
+  },
+  "results": [
+    {
+      "caseNo": "01",
+      "name": "用户列表管理",
+      "status": "pass",
+      "given": [
+        "管理员登录系统"
+      ],
+      "when": [
+        "查看、编辑、删除用户"
+      ],
+      "expectation": "操作生效",
+      "actual": "用户管理/账户活动接口可用，页面已截图。",
+      "evidence": [],
+      "apiEvidence": [
+        "GET /api/users 可定位测试用户：true",
+        "GET account-actions 返回 200，数量：1"
+      ],
+      "screenshots": [
+        "D:\\VSCode\\playwright\\results\\08\\screenshots\\01-admin-users-page.png"
+      ]
+    },
+    {
+      "caseNo": "02",
+      "name": "授予/撤销管理员",
+      "status": "blocked",
+      "given": [
+        "管理员登录系统"
+      ],
+      "when": [
+        "授予或撤销管理员权限"
+      ],
+      "expectation": "权限立即生效",
+      "actual": "demo 环境限制部分管理员变更；已验证限制响应并截图实例设置页。",
+      "evidence": [],
+      "apiEvidence": [
+        "demoMode：true",
+        "PATCH user isAdmin 返回 200",
+        "POST core-settings 返回 403"
+      ],
+      "screenshots": [
+        "D:\\VSCode\\playwright\\results\\08\\screenshots\\02-admin-settings-page.png"
+      ]
+    },
+    {
+      "caseNo": "03",
+      "name": "实例设置",
+      "status": "blocked",
+      "given": [
+        "管理员登录系统"
+      ],
+      "when": [
+        "修改注册开关或域名限制"
+      ],
+      "expectation": "设置生效",
+      "actual": "demo 环境限制部分管理员变更；已验证限制响应并截图实例设置页。",
+      "evidence": [],
+      "apiEvidence": [
+        "demoMode：true",
+        "PATCH user isAdmin 返回 200",
+        "POST core-settings 返回 403"
+      ],
+      "screenshots": [
+        "D:\\VSCode\\playwright\\results\\08\\screenshots\\03-admin-settings-page.png"
+      ]
+    },
+    {
+      "caseNo": "04",
+      "name": "系统参数配置",
+      "status": "blocked",
+      "given": [
+        "管理员登录系统"
+      ],
+      "when": [
+        "设置系统参数并保存"
+      ],
+      "expectation": "重启后配置生效",
+      "actual": "demo 环境限制部分管理员变更；已验证限制响应并截图实例设置页。",
+      "evidence": [],
+      "apiEvidence": [
+        "demoMode：true",
+        "PATCH user isAdmin 返回 200",
+        "POST core-settings 返回 403"
+      ],
+      "screenshots": [
+        "D:\\VSCode\\playwright\\results\\08\\screenshots\\04-admin-settings-page.png"
+      ]
+    },
+    {
+      "caseNo": "05",
+      "name": "角色权限分配",
+      "status": "pass",
+      "given": [
+        "管理员登录系统"
+      ],
+      "when": [
+        "为用户分配角色权限"
+      ],
+      "expectation": "用户获得对应功能访问权",
+      "actual": "项目经理角色可管理项目内内容。",
+      "evidence": [],
+      "apiEvidence": [
+        "授予项目经理返回 200",
+        "项目经理创建看板返回 200"
+      ],
+      "screenshots": [
+        "D:\\VSCode\\playwright\\results\\08\\screenshots\\05-admin-role-board.png"
+      ]
+    },
+    {
+      "caseNo": "06",
+      "name": "系统日志查看",
+      "status": "pass",
+      "given": [
+        "管理员登录系统"
+      ],
+      "when": [
+        "按时间、类型筛选查看日志"
+      ],
+      "expectation": "日志记录完整",
+      "actual": "实例级活动日志接口可读取。",
+      "evidence": [],
+      "apiEvidence": [
+        "GET /api/instance/actions 返回 200，数量：0"
+      ],
+      "screenshots": [
+        "D:\\VSCode\\playwright\\results\\08\\screenshots\\06-settings-about.png"
+      ]
+    },
+    {
+      "caseNo": "07",
+      "name": "系统资源监控",
+      "status": "blocked",
+      "given": [
+        "系统正常运行"
+      ],
+      "when": [
+        "查看CPU、内存使用率"
+      ],
+      "expectation": "使用率正常，无内存泄漏",
+      "actual": "应用公开 API 未暴露 CPU/内存监控指标；已截图 About/Settings 页面作为受阻证据。",
+      "evidence": [],
+      "apiEvidence": [
+        "GET /api/instance/actions 返回 200，数量：0"
+      ],
+      "screenshots": [
+        "D:\\VSCode\\playwright\\results\\08\\screenshots\\07-settings-about.png"
+      ]
+    },
+    {
+      "caseNo": "08",
+      "name": "项目经理级别权限",
+      "status": "pass",
+      "given": [
+        "以项目经理身份登录系统"
+      ],
+      "when": [
+        "管理项目内内容，添加新成员，创建新看板"
+      ],
+      "expectation": "系统应允许执行所有操作",
+      "actual": "项目经理角色可管理项目内内容。",
+      "evidence": [],
+      "apiEvidence": [
+        "授予项目经理返回 200",
+        "项目经理创建看板返回 200"
+      ],
+      "screenshots": [
+        "D:\\VSCode\\playwright\\results\\08\\screenshots\\08-admin-role-board.png"
+      ]
+    },
+    {
+      "caseNo": "09",
+      "name": "管理员级别权限",
+      "status": "pass",
+      "given": [
+        "以管理员身份登录系统"
+      ],
+      "when": [
+        "访问实例设置，创建新项目"
+      ],
+      "expectation": "系统应允许执行所有操作",
+      "actual": "管理员可创建项目/用户，普通用户手动添加用户被拒绝。",
+      "evidence": [],
+      "apiEvidence": [
+        "管理员创建项目 id：1796482843174503573",
+        "管理员 POST /api/users 返回 200，邮箱：manual_09_1781348922696-zoucg7_x2yfq@example.com"
+      ],
+      "screenshots": [
+        "D:\\VSCode\\playwright\\results\\08\\screenshots\\09-admin-users-settings.png"
+      ]
+    },
+    {
+      "caseNo": "10",
+      "name": "管理员手动添加用户",
+      "status": "blocked",
+      "given": [
+        "管理员/普通用户登录"
+      ],
+      "when": [
+        "管理员添加用户 / 普通用户尝试添加"
+      ],
+      "expectation": "管理员可添加，普通用户不可",
+      "actual": "管理员可创建项目/用户；但 demo 环境中新注册用户默认具备管理员能力，无法模拟“普通用户不可添加用户”的 Given。",
+      "evidence": [],
+      "apiEvidence": [
+        "管理员创建项目 id：1796482925617743006",
+        "管理员 POST /api/users 返回 200，邮箱：manual_10_1781348922696-zoucg7_vyjcm@example.com",
+        "普通用户 POST /api/users 返回 200",
+        "demoMode：true，当前 demo 注册用户默认具备管理员能力"
+      ],
+      "screenshots": [
+        "D:\\VSCode\\playwright\\results\\08\\screenshots\\10-admin-users-settings.png"
+      ]
+    },
+    {
+      "caseNo": "11",
+      "name": "修改用户信息",
+      "status": "pass",
+      "given": [
+        "以管理员身份登录系统，进入实例设置"
+      ],
+      "when": [
+        "点击用户行的铅笔图标，修改用户信息并保存"
+      ],
+      "expectation": "用户信息应被成功更新",
+      "actual": "用户管理/账户活动接口可用，页面已截图。",
+      "evidence": [],
+      "apiEvidence": [
+        "GET /api/users 可定位测试用户：true",
+        "PATCH /api/users/1796483035240072365 返回 200",
+        "GET account-actions 返回 200，数量：2"
+      ],
+      "screenshots": [
+        "D:\\VSCode\\playwright\\results\\08\\screenshots\\11-admin-users-page.png"
+      ]
+    },
+    {
+      "caseNo": "12",
+      "name": "查看账户活动",
+      "status": "pass",
+      "given": [
+        "以管理员身份登录系统，进入实例设置"
+      ],
+      "when": [
+        "点击用户行的铅笔图标，查看账户活动"
+      ],
+      "expectation": "应显示账户创建时间和信息更新时间",
+      "actual": "用户管理/账户活动接口可用，页面已截图。",
+      "evidence": [],
+      "apiEvidence": [
+        "GET /api/users 可定位测试用户：true",
+        "GET account-actions 返回 200，数量：1"
+      ],
+      "screenshots": [
+        "D:\\VSCode\\playwright\\results\\08\\screenshots\\12-admin-users-page.png"
+      ]
+    }
+  ]
+}

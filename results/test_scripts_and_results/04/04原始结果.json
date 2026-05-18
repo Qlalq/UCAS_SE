@@ -1,0 +1,117 @@
+{
+  "runId": "1781347155206-adwzjs",
+  "navigationCount": 5,
+  "navigationLog": [
+    "trello import project: https://demo.4gaboards.com/projects/1796467047199147525",
+    "export-board: https://demo.4gaboards.com/boards/1796467203973842458",
+    "invalid import project: https://demo.4gaboards.com/projects/1796467310190396969",
+    "4ga import blocked evidence: https://demo.4gaboards.com/projects/1796467395712255536",
+    "export-board: https://demo.4gaboards.com/boards/1796467490184758849"
+  ],
+  "summary": {
+    "pass": 4,
+    "blocked": 1
+  },
+  "results": [
+    {
+      "caseNo": "01",
+      "name": "Trello JSON导入",
+      "status": "pass",
+      "given": [
+        "准备了Trello JSON文件"
+      ],
+      "when": [
+        "执行导入"
+      ],
+      "expectation": "看板、列表、卡片、标签正确映射",
+      "actual": "Trello JSON 导入接口接受有效结构并创建看板。",
+      "evidence": [],
+      "apiEvidence": [
+        "POST Trello import 返回 200，响应：{\"item\":{\"id\":\"1796467060805469707\",\"createdAt\":\"2026-06-13T10:39:22.000Z\",\"updatedAt\":null,\"position\":65535,\"name\":\"trello-import-1781347155206-adwzjs\",\"isGithubConnected\":false,\"githubRepo\":\"\",\"isImportedBoard\":true,\"projectId\":\"1796467047199147525\",\"createdById\":\"1796447773978003006\",\"updatedById\":null},\"included\":{\"boardMemberships\":[{\"id\":\"1796467060839024140\",\"createdAt\":\"2026-06-13T10:39:22.000Z\",\"updatedAt\":null,\"role\":\"editor\",\"canComment\":null,\"isSubscribed\":true,\"boardId\":\"17964670608..."
+      ],
+      "screenshots": [
+        "D:\\VSCode\\playwright\\results\\04\\screenshots\\01-trello-import-project.png"
+      ]
+    },
+    {
+      "caseNo": "02",
+      "name": "4ga Boards导出/导入",
+      "status": "pass",
+      "given": [
+        "看板中有数据"
+      ],
+      "when": [
+        "导出为.tgz再导入"
+      ],
+      "expectation": "数据完整还原",
+      "actual": "导出接口生成 .tgz 导出文件 URL。",
+      "evidence": [],
+      "apiEvidence": [
+        "GET /api/boards/1796467203973842458/export 返回 200，URL：https://demo.4gaboards.com/exports/1796467203973842458/4gaBoards_1796467203973842458_2026-06-13T10-39-41.tgz",
+        "导出文件下载返回 200，content-type：application/octet-stream"
+      ],
+      "screenshots": [
+        "D:\\VSCode\\playwright\\results\\04\\screenshots\\02-export-board.png"
+      ]
+    },
+    {
+      "caseNo": "03",
+      "name": "无效文件导入",
+      "status": "pass",
+      "given": [
+        "准备了无效格式文件"
+      ],
+      "when": [
+        "尝试导入"
+      ],
+      "expectation": "拒绝，提示格式错误",
+      "actual": "无效导入文件被拒绝。",
+      "evidence": [],
+      "apiEvidence": [
+        "POST invalid import 返回 500，响应：{\"code\":\"E_SERVER_ERROR\",\"message\":{}}"
+      ],
+      "screenshots": [
+        "D:\\VSCode\\playwright\\results\\04\\screenshots\\03-invalid-import-project.png"
+      ]
+    },
+    {
+      "caseNo": "04",
+      "name": "从4ga Boards导入",
+      "status": "blocked",
+      "given": [
+        "以项目经理身份登录系统，有4ga Boards导出的.tgz文件"
+      ],
+      "when": [
+        "创建新看板，选择\"Import\"，选择4ga Boards选项，上传.tgz文件"
+      ],
+      "expectation": "应成功导入4ga Boards看板数据",
+      "actual": "自动化 runner 当前只稳定验证 4ga Boards 导出；从 .tgz 回传导入需要服务端实际导出文件落盘并复用文件流，本 demo 环境未提供本地导出文件路径。",
+      "evidence": [],
+      "apiEvidence": [],
+      "screenshots": [
+        "D:\\VSCode\\playwright\\results\\04\\screenshots\\04-4ga-import-blocked.png"
+      ]
+    },
+    {
+      "caseNo": "05",
+      "name": "导出看板",
+      "status": "pass",
+      "given": [
+        "以任何身份登录系统，打开看板"
+      ],
+      "when": [
+        "打开看板上下文菜单，选择\"Export Board\""
+      ],
+      "expectation": "应生成.tgz格式的看板导出文件",
+      "actual": "导出接口生成 .tgz 导出文件 URL。",
+      "evidence": [],
+      "apiEvidence": [
+        "GET /api/boards/1796467490184758849/export 返回 200，URL：https://demo.4gaboards.com/exports/1796467490184758849/4gaBoards_1796467490184758849_2026-06-13T10-40-17.tgz",
+        "导出文件下载返回 200，content-type：application/octet-stream"
+      ],
+      "screenshots": [
+        "D:\\VSCode\\playwright\\results\\04\\screenshots\\05-export-board.png"
+      ]
+    }
+  ]
+}

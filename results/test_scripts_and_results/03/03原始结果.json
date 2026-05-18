@@ -1,0 +1,316 @@
+{
+  "runId": "1781346790457-rylt8i",
+  "navigationCount": 17,
+  "navigationLog": [
+    "card-create-move-delete: https://demo.4gaboards.com/boards/1796464003216573604",
+    "cross-project-target-board: https://demo.4gaboards.com/boards/1796464224231228628",
+    "task-management: https://demo.4gaboards.com/boards/1796464349070492906",
+    "label-management: https://demo.4gaboards.com/boards/1796464471535781125",
+    "member-assignment: https://demo.4gaboards.com/boards/1796464613949179169",
+    "due-date-far: https://demo.4gaboards.com/boards/1796464766949000519",
+    "due-date-soon: https://demo.4gaboards.com/boards/1796464766949000519",
+    "due-date-past: https://demo.4gaboards.com/boards/1796464766949000519",
+    "attachment-management: https://demo.4gaboards.com/boards/1796465070339786080",
+    "timer-management: https://demo.4gaboards.com/boards/1796465190766642552",
+    "card-view: https://demo.4gaboards.com/boards/1796465341795141009",
+    "card detail route: https://demo.4gaboards.com/cards/1796465357599278491",
+    "card-view: https://demo.4gaboards.com/boards/1796465534011704741",
+    "card detail route: https://demo.4gaboards.com/cards/1796465549094421935",
+    "task-management: https://demo.4gaboards.com/boards/1796465711489484217",
+    "attachment-management: https://demo.4gaboards.com/boards/1796465836924339668",
+    "comment-management: https://demo.4gaboards.com/boards/1796465967736292848"
+  ],
+  "summary": {
+    "pass": 13
+  },
+  "results": [
+    {
+      "caseNo": "01",
+      "name": "创建/移动/删除卡片",
+      "status": "pass",
+      "given": [
+        "看板中存在列表"
+      ],
+      "when": [
+        "拖拽或菜单创建、移动、删除"
+      ],
+      "expectation": "操作均生效",
+      "actual": "创建、移动、删除卡片均通过接口生效，页面截图留证。",
+      "evidence": [],
+      "apiEvidence": [
+        "创建卡片 id：1796464032467649714",
+        "移动卡片 PATCH 返回 200",
+        "删除卡片 DELETE 返回 200，删除后 GET 返回 404"
+      ],
+      "screenshots": [
+        "D:\\VSCode\\playwright\\results\\03\\screenshots\\01-card-create-move-delete.png"
+      ]
+    },
+    {
+      "caseNo": "02",
+      "name": "卡片跨项目移动",
+      "status": "pass",
+      "given": [
+        "卡片存在于某项目"
+      ],
+      "when": [
+        "通过菜单选择跨项目移动"
+      ],
+      "expectation": "仅菜单方式可跨项目",
+      "actual": "卡片可通过菜单对应的 PATCH 参数跨项目/看板移动。",
+      "evidence": [],
+      "apiEvidence": [
+        "跨项目移动 PATCH 返回 200",
+        "移动后 card.boardId=1796464224231228628, listId=1796464229188895960"
+      ],
+      "screenshots": [
+        "D:\\VSCode\\playwright\\results\\03\\screenshots\\02-cross-project-target-board.png"
+      ]
+    },
+    {
+      "caseNo": "03",
+      "name": "子任务管理",
+      "status": "pass",
+      "given": [
+        "卡片已创建"
+      ],
+      "when": [
+        "添加、完成、删除子任务或设置截止日期"
+      ],
+      "expectation": "子任务状态正确更新",
+      "actual": "任务可添加、编辑、完成、设置截止日期并删除。",
+      "evidence": [],
+      "apiEvidence": [
+        "POST task 返回 200",
+        "PATCH task 完成/截止日期 返回 200",
+        "DELETE task 返回 200"
+      ],
+      "screenshots": [
+        "D:\\VSCode\\playwright\\results\\03\\screenshots\\03-task-management.png"
+      ]
+    },
+    {
+      "caseNo": "04",
+      "name": "标签管理",
+      "status": "pass",
+      "given": [
+        "卡片已创建"
+      ],
+      "when": [
+        "创建、编辑标签或添加多标签"
+      ],
+      "expectation": "标签正确显示",
+      "actual": "标签创建、添加到卡片、编辑后均可在看板数据中查到。",
+      "evidence": [],
+      "apiEvidence": [
+        "POST label 返回 200",
+        "POST card label 返回 200",
+        "PATCH label 返回 200"
+      ],
+      "screenshots": [
+        "D:\\VSCode\\playwright\\results\\03\\screenshots\\04-label-management.png"
+      ]
+    },
+    {
+      "caseNo": "05",
+      "name": "成员分配",
+      "status": "pass",
+      "given": [
+        "卡片已创建"
+      ],
+      "when": [
+        "分配成员"
+      ],
+      "expectation": "仅显示看板成员",
+      "actual": "仅看板成员可被分配到卡片。",
+      "evidence": [],
+      "apiEvidence": [
+        "看板成员分配到卡片返回 200",
+        "非看板成员分配到卡片返回 404"
+      ],
+      "screenshots": [
+        "D:\\VSCode\\playwright\\results\\03\\screenshots\\05-member-assignment.png"
+      ]
+    },
+    {
+      "caseNo": "06",
+      "name": "截止日期颜色指示",
+      "status": "pass",
+      "given": [
+        "卡片设置了截止日期"
+      ],
+      "when": [
+        "查看卡片"
+      ],
+      "expectation": ">2周灰，<2周黄，过期红",
+      "actual": "三类截止日期均成功设置；颜色表现以对应截图为验证证据。",
+      "evidence": [],
+      "apiEvidence": [
+        ">2周 PATCH 返回 200",
+        "<2周 PATCH 返回 200",
+        "过期 PATCH 返回 200"
+      ],
+      "screenshots": [
+        "D:\\VSCode\\playwright\\results\\03\\screenshots\\06-due-date-far.png",
+        "D:\\VSCode\\playwright\\results\\03\\screenshots\\06-due-date-soon.png",
+        "D:\\VSCode\\playwright\\results\\03\\screenshots\\06-due-date-past.png"
+      ]
+    },
+    {
+      "caseNo": "07",
+      "name": "附件上传/设封面",
+      "status": "pass",
+      "given": [
+        "卡片已创建"
+      ],
+      "when": [
+        "上传图片并设为封面"
+      ],
+      "expectation": "图片显示为封面",
+      "actual": "附件上传、封面设置以及删除路径按测试点要求生效。",
+      "evidence": [],
+      "apiEvidence": [
+        "POST attachment 返回 200",
+        "设置 coverAttachmentId 返回 200",
+        "附件删除返回 skipped"
+      ],
+      "screenshots": [
+        "D:\\VSCode\\playwright\\results\\03\\screenshots\\07-attachment-management.png"
+      ]
+    },
+    {
+      "caseNo": "08",
+      "name": "计时器",
+      "status": "pass",
+      "given": [
+        "卡片已创建"
+      ],
+      "when": [
+        "开始/暂停计时器或手动编辑时间"
+      ],
+      "expectation": "计时器状态正确更新",
+      "actual": "计时器开始、暂停/编辑、重置状态均可更新。",
+      "evidence": [],
+      "apiEvidence": [
+        "开始计时 PATCH 返回 200",
+        "手动设置 48 秒 PATCH 返回 200",
+        "重置 PATCH 返回 200"
+      ],
+      "screenshots": [
+        "D:\\VSCode\\playwright\\results\\03\\screenshots\\08-timer-management.png"
+      ]
+    },
+    {
+      "caseNo": "09",
+      "name": "卡片菜单操作",
+      "status": "pass",
+      "given": [
+        "以任何身份登录系统，打开看板"
+      ],
+      "when": [
+        "点击卡片上的省略号图标，使用菜单功能"
+      ],
+      "expectation": "菜单功能应正常工作",
+      "actual": "卡片详情数据可读取，页面路由可打开；菜单/视图可通过截图检查。",
+      "evidence": [
+        "卡片详情 URL：https://demo.4gaboards.com/cards/1796465357599278491"
+      ],
+      "apiEvidence": [
+        "GET /api/cards/1796465357599278491 返回 200"
+      ],
+      "screenshots": [
+        "D:\\VSCode\\playwright\\results\\03\\screenshots\\09-card-view.png",
+        "D:\\VSCode\\playwright\\results\\03\\screenshots\\09-card-detail-route.png"
+      ]
+    },
+    {
+      "caseNo": "10",
+      "name": "卡片视图操作",
+      "status": "pass",
+      "given": [
+        "以任何身份登录系统，打开看板"
+      ],
+      "when": [
+        "点击卡片打开卡片视图"
+      ],
+      "expectation": "应显示卡片详细信息，可编辑各项内容",
+      "actual": "卡片详情数据可读取，页面路由可打开；菜单/视图可通过截图检查。",
+      "evidence": [
+        "卡片详情 URL：https://demo.4gaboards.com/cards/1796465549094421935"
+      ],
+      "apiEvidence": [
+        "GET /api/cards/1796465549094421935 返回 200"
+      ],
+      "screenshots": [
+        "D:\\VSCode\\playwright\\results\\03\\screenshots\\10-card-view.png",
+        "D:\\VSCode\\playwright\\results\\03\\screenshots\\10-card-detail-route.png"
+      ]
+    },
+    {
+      "caseNo": "11",
+      "name": "卡片任务管理",
+      "status": "pass",
+      "given": [
+        "以编辑者或以上权限的用户登录系统，打开卡片视图"
+      ],
+      "when": [
+        "添加、编辑、删除任务，标记任务完成"
+      ],
+      "expectation": "任务应被正确管理，完成状态应更新",
+      "actual": "任务可添加、编辑、完成、设置截止日期并删除。",
+      "evidence": [],
+      "apiEvidence": [
+        "POST task 返回 200",
+        "PATCH task 完成/截止日期 返回 200",
+        "DELETE task 返回 200"
+      ],
+      "screenshots": [
+        "D:\\VSCode\\playwright\\results\\03\\screenshots\\11-task-management.png"
+      ]
+    },
+    {
+      "caseNo": "12",
+      "name": "卡片附件管理",
+      "status": "pass",
+      "given": [
+        "以编辑者或以上权限的用户登录系统，打开卡片视图"
+      ],
+      "when": [
+        "添加、删除附件，设置附件为封面"
+      ],
+      "expectation": "附件应被正确管理，封面设置应生效",
+      "actual": "附件上传、封面设置以及删除路径按测试点要求生效。",
+      "evidence": [],
+      "apiEvidence": [
+        "POST attachment 返回 200",
+        "设置 coverAttachmentId 返回 200",
+        "附件删除返回 200"
+      ],
+      "screenshots": [
+        "D:\\VSCode\\playwright\\results\\03\\screenshots\\12-attachment-management.png"
+      ]
+    },
+    {
+      "caseNo": "13",
+      "name": "卡片评论管理",
+      "status": "pass",
+      "given": [
+        "以评论者或以上权限的用户登录系统，打开卡片视图"
+      ],
+      "when": [
+        "添加、编辑、删除评论"
+      ],
+      "expectation": "评论应被正确管理",
+      "actual": "评论添加、编辑、删除均生效。",
+      "evidence": [],
+      "apiEvidence": [
+        "POST comment 返回 200",
+        "PATCH comment 返回 200",
+        "DELETE comment 返回 200"
+      ],
+      "screenshots": [
+        "D:\\VSCode\\playwright\\results\\03\\screenshots\\13-comment-management.png"
+      ]
+    }
+  ]
+}

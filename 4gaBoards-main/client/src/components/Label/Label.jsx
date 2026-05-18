@@ -1,0 +1,61 @@
+import React from 'react';
+import { useTranslation } from 'react-i18next';
+import clsx from 'clsx';
+import upperFirst from 'lodash/upperFirst';
+import PropTypes from 'prop-types';
+
+import { Button } from '../Utils';
+
+import * as gs from '../../global.module.scss';
+import * as s from './Label.module.scss';
+
+const VARIANTS = {
+  CARD: 'card',
+  CARDMODAL: 'cardModal',
+  LABELS: 'labels',
+};
+
+const Label = React.memo(({ name, color, variant, isDisabled, isRemovable, isClickable, className, onClick }) => {
+  const [t] = useTranslation();
+  const labelName = name.startsWith('common.') ? t(name) : name;
+
+  const contentNode = (
+    <div
+      title={labelName}
+      style={{ backgroundColor: color }}
+      className={clsx(s.wrapper, s[`wrapper${upperFirst(variant)}`], onClick && s.wrapperHoverable, isRemovable && s.wrapperRemovable, (onClick || isClickable) && gs.cursorPointer, className)}
+    >
+      {labelName}
+    </div>
+  );
+
+  return onClick ? (
+    <Button onClick={onClick} disabled={isDisabled} className={s.button}>
+      {contentNode}
+    </Button>
+  ) : (
+    contentNode
+  );
+});
+
+Label.propTypes = {
+  name: PropTypes.string.isRequired,
+  color: PropTypes.string.isRequired,
+  variant: PropTypes.oneOf(Object.values(VARIANTS)),
+  isDisabled: PropTypes.bool,
+  isRemovable: PropTypes.bool,
+  className: PropTypes.string,
+  isClickable: PropTypes.bool,
+  onClick: PropTypes.func,
+};
+
+Label.defaultProps = {
+  variant: VARIANTS.CARDMODAL,
+  isDisabled: false,
+  isRemovable: false,
+  className: undefined,
+  isClickable: false,
+  onClick: undefined,
+};
+
+export default Label;

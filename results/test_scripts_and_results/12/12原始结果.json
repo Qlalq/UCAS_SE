@@ -1,0 +1,77 @@
+{
+  "runId": "1781350347539-i80bbl",
+  "navigationCount": 3,
+  "navigationLog": [
+    "about page for log config: https://demo.4gaboards.com/settings/about",
+    "about page for log config: https://demo.4gaboards.com/settings/about",
+    "about page for log config: https://demo.4gaboards.com/settings/about"
+  ],
+  "summary": {
+    "blocked": 3
+  },
+  "results": [
+    {
+      "caseNo": "01",
+      "name": "配置日志暴露",
+      "status": "blocked",
+      "given": [
+        "系统已安装4ga Boards，编辑docker-compose.yml文件"
+      ],
+      "when": [
+        "添加./logs/:/app/logs/到volumes"
+      ],
+      "expectation": "日志目录应被暴露到主机机器",
+      "actual": "日志暴露、logrotate、Fail2ban 属于部署主机配置项，demo 网站页面无法模拟编辑系统文件；已记录源码配置检查和页面截图。",
+      "evidence": [
+        "源码 docker-compose.yml 存在：false",
+        "docker-compose.yml 是否包含 logs volume：false"
+      ],
+      "apiEvidence": [],
+      "screenshots": [
+        "D:\\VSCode\\playwright\\results\\12\\screenshots\\01-logs-01.png"
+      ]
+    },
+    {
+      "caseNo": "02",
+      "name": "配置日志轮转",
+      "status": "blocked",
+      "given": [
+        "系统已安装4ga Boards，创建logrotate配置文件"
+      ],
+      "when": [
+        "在/etc/logrotate.d/创建4gaBoards配置文件"
+      ],
+      "expectation": "日志应按照配置自动轮转",
+      "actual": "日志暴露、logrotate、Fail2ban 属于部署主机配置项，demo 网站页面无法模拟编辑系统文件；已记录源码配置检查和页面截图。",
+      "evidence": [
+        "源码 docker-compose.yml 存在：false",
+        "docker-compose.yml 是否包含 logs volume：false"
+      ],
+      "apiEvidence": [],
+      "screenshots": [
+        "D:\\VSCode\\playwright\\results\\12\\screenshots\\02-logs-02.png"
+      ]
+    },
+    {
+      "caseNo": "03",
+      "name": "配置Fail2ban",
+      "status": "blocked",
+      "given": [
+        "系统已安装4ga Boards，创建fail2ban配置文件"
+      ],
+      "when": [
+        "在/etc/fail2ban/filter.d/和/etc/fail2ban/jail.d/创建配置文件"
+      ],
+      "expectation": "Fail2ban应能检测并阻止失败的认证尝试",
+      "actual": "日志暴露、logrotate、Fail2ban 属于部署主机配置项，demo 网站页面无法模拟编辑系统文件；已记录源码配置检查和页面截图。",
+      "evidence": [
+        "源码 docker-compose.yml 存在：false",
+        "docker-compose.yml 是否包含 logs volume：false"
+      ],
+      "apiEvidence": [],
+      "screenshots": [
+        "D:\\VSCode\\playwright\\results\\12\\screenshots\\03-logs-03.png"
+      ]
+    }
+  ]
+}

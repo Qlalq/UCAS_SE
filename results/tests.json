@@ -1,0 +1,654 @@
+[
+  {
+    "category": "一、用户级模块",
+    "feature": "用户级模块",
+    "test_cases": [
+      {
+        "name": "1_user_registration_email_password",
+        "steps": [
+          "访问 https://demo.4gaboards.com/login 页面",
+          "点击注册链接或按钮进入注册页面",
+          "在邮箱字段输入有效的邮箱地址（如 testuser@example.com）",
+          "在密码字段输入符合要求的密码（如 Test123!@#）",
+          "确认密码字段再次输入相同密码",
+          "点击注册/提交按钮"
+        ],
+        "expectation": "成功创建账户，可登录"
+      },
+      {
+        "name": "2_empty_password_registration",
+        "steps": [
+          "用户在注册页面",
+          "提交邮箱但密码为空"
+        ],
+        "expectation": "拒绝，提示密码必填"
+      },
+      {
+        "name": "3_sso_login",
+        "steps": [
+          "系统已配置SSO提供商",
+          "用户选择SSO方式登录"
+        ],
+        "expectation": "支持4种SSO提供商完成登录"
+      },
+      {
+        "name": "4_view_user_list",
+        "steps": [
+          "以管理员身份登录系统，进入实例设置",
+          "查看用户表格"
+        ],
+        "expectation": "显示用户相关信息"
+      },
+      {
+        "name": "5_duplicate_email_registration",
+        "steps": [
+          "该邮箱已注册",
+          "再次使用同一邮箱注册"
+        ],
+        "expectation": "拒绝，提示邮箱已存在"
+      },
+      {
+        "name": "6_registration_disabled_registration",
+        "steps": [
+          "管理员已关闭注册功能",
+          "新用户尝试注册"
+        ],
+        "expectation": "拒绝新用户注册"
+      },
+      {
+        "name": "7_user_level_access_denied",
+        "steps": [
+          "以用户身份登录系统",
+          "尝试访问未被添加的项目或看板"
+        ],
+        "expectation": "系统应拒绝访问，显示权限不足提示"
+      },
+      {
+        "name": "8_user_level_access_allowed",
+        "steps": [
+          "以用户身份登录系统",
+          "访问已被添加的项目和看板"
+        ],
+        "expectation": "系统应允许正常访问"
+      }
+    ]
+  },
+  {
+    "category": "二、项目/看板管理",
+    "feature": "项目/看板管理",
+    "test_cases": [
+      {
+        "name": "9_create_project",
+        "steps": [
+          "用户已登录",
+          "创建新项目"
+        ],
+        "expectation": "项目出现在dashboard"
+      },
+      {
+        "name": "10_project_permission_hierarchy",
+        "steps": [
+          "普通用户未被添加到某项目",
+          "查看项目列表"
+        ],
+        "expectation": "仅见被添加的项目"
+      },
+      {
+        "name": "11_create_board",
+        "steps": [
+          "用户在某项目内",
+          "选择simple/kanban模板创建看板"
+        ],
+        "expectation": "正确生成预设列表"
+      },
+      {
+        "name": "12_board_view_switching",
+        "steps": [
+          "看板中有数据",
+          "board/list view间切换"
+        ],
+        "expectation": "数据同步一致"
+      },
+      {
+        "name": "13_delete_project",
+        "steps": [
+          "用户已登录且项目存在",
+          "确认删除弹窗后删除"
+        ],
+        "expectation": "数据清空"
+      },
+      {
+        "name": "14_rename_project",
+        "steps": [
+          "用户已登录且项目存在",
+          "重命名确认"
+        ],
+        "expectation": "名称更新"
+      },
+      {
+        "name": "15_view_project",
+        "steps": [
+          "用户已登录且项目存在",
+          "点击查看"
+        ],
+        "expectation": "正确显示项目"
+      },
+      {
+        "name": "16_non_admin_create_project",
+        "steps": [
+          "管理员已禁用普通用户创建项目",
+          "普通用户尝试创建"
+        ],
+        "expectation": "拒绝创建"
+      }
+    ]
+  },
+  {
+    "category": "三、卡片核心功能",
+    "feature": "卡片核心功能",
+    "test_cases": [
+      {
+        "name": "17_card_create_move_delete",
+        "steps": [
+          "看板中存在列表",
+          "拖拽或菜单创建、移动、删除"
+        ],
+        "expectation": "操作均生效"
+      },
+      {
+        "name": "18_card_cross_project_move",
+        "steps": [
+          "卡片存在于某项目",
+          "通过菜单选择跨项目移动"
+        ],
+        "expectation": "仅菜单方式可跨项目"
+      },
+      {
+        "name": "19_subtask_management",
+        "steps": [
+          "卡片已创建",
+          "添加、完成、删除子任务或设置截止日期"
+        ],
+        "expectation": "子任务状态正确更新"
+      },
+      {
+        "name": "20_label_management",
+        "steps": [
+          "卡片已创建",
+          "创建、编辑标签或添加多标签"
+        ],
+        "expectation": "标签正确显示"
+      },
+      {
+        "name": "21_member_assignment",
+        "steps": [
+          "卡片已创建",
+          "分配成员"
+        ],
+        "expectation": "仅显示看板成员"
+      },
+      {
+        "name": "22_due_date_color_indicator",
+        "steps": [
+          "卡片设置了截止日期",
+          "查看卡片"
+        ],
+        "expectation": ">2周灰，<2周黄，过期红"
+      },
+      {
+        "name": "23_attachment_upload_set_cover",
+        "steps": [
+          "卡片已创建",
+          "上传图片并设为封面"
+        ],
+        "expectation": "图片显示为封面"
+      },
+      {
+        "name": "24_timer_functionality",
+        "steps": [
+          "卡片已创建",
+          "开始/暂停计时器或手动编辑时间"
+        ],
+        "expectation": "计时器状态正确更新"
+      },
+      {
+        "name": "25_card_menu_operations",
+        "steps": [
+          "以任何身份登录系统，打开看板",
+          "点击卡片上的省略号图标，使用菜单功能"
+        ],
+        "expectation": "菜单功能应正常工作"
+      },
+      {
+        "name": "26_card_view_operations",
+        "steps": [
+          "以任何身份登录系统，打开看板",
+          "点击卡片打开卡片视图"
+        ],
+        "expectation": "应显示卡片详细信息，可编辑各项内容"
+      },
+      {
+        "name": "27_card_task_management",
+        "steps": [
+          "以编辑者或以上权限的用户登录系统，打开卡片视图",
+          "添加、编辑、删除任务，标记任务完成"
+        ],
+        "expectation": "任务应被正确管理，完成状态应更新"
+      },
+      {
+        "name": "28_card_attachment_management",
+        "steps": [
+          "以编辑者或以上权限的用户登录系统，打开卡片视图",
+          "添加、删除附件，设置附件为封面"
+        ],
+        "expectation": "附件应被正确管理，封面设置应生效"
+      },
+      {
+        "name": "29_card_comment_management",
+        "steps": [
+          "以评论者或以上权限的用户登录系统，打开卡片视图",
+          "添加、编辑、删除评论"
+        ],
+        "expectation": "评论应被正确管理"
+      }
+    ]
+  },
+  {
+    "category": "四、导入/导出",
+    "feature": "导入/导出",
+    "test_cases": [
+      {
+        "name": "30_trello_json_import",
+        "steps": [
+          "准备了Trello JSON文件",
+          "执行导入"
+        ],
+        "expectation": "看板、列表、卡片、标签正确映射"
+      },
+      {
+        "name": "31_4ga_boards_export_import",
+        "steps": [
+          "看板中有数据",
+          "导出为.tgz再导入"
+        ],
+        "expectation": "数据完整还原"
+      },
+      {
+        "name": "32_invalid_file_import",
+        "steps": [
+          "准备了无效格式文件",
+          "尝试导入"
+        ],
+        "expectation": "拒绝，提示格式错误"
+      },
+      {
+        "name": "33_import_from_4ga_boards",
+        "steps": [
+          "以项目经理身份登录系统，有4ga Boards导出的.tgz文件",
+          "创建新看板，选择\"Import\"，选择4ga Boards选项，上传.tgz文件"
+        ],
+        "expectation": "应成功导入4ga Boards看板数据"
+      },
+      {
+        "name": "34_export_board",
+        "steps": [
+          "以任何身份登录系统，打开看板",
+          "打开看板上下文菜单，选择\"Export Board\""
+        ],
+        "expectation": "应生成.tgz格式的看板导出文件"
+      }
+    ]
+  },
+  {
+    "category": "五、权限矩阵",
+    "feature": "权限矩阵",
+    "test_cases": [
+      {
+        "name": "35_project_manager_permissions",
+        "steps": [
+          "用户角色为Project Manager",
+          "管理看板、添加成员"
+        ],
+        "expectation": "操作生效"
+      },
+      {
+        "name": "36_editor_permissions",
+        "steps": [
+          "用户角色为Editor",
+          "创建/删除任务和列表"
+        ],
+        "expectation": "操作生效"
+      },
+      {
+        "name": "37_commenter_permissions",
+        "steps": [
+          "用户角色为Commenter",
+          "查看内容或发表评论"
+        ],
+        "expectation": "可查看+评论"
+      },
+      {
+        "name": "38_viewer_permissions",
+        "steps": [
+          "用户角色为Viewer",
+          "查看看板"
+        ],
+        "expectation": "仅可查看"
+      }
+    ]
+  },
+  {
+    "category": "六、通知系统",
+    "feature": "通知系统",
+    "test_cases": [
+      {
+        "name": "39_view_notifications",
+        "steps": [
+          "以任何身份登录系统",
+          "点击顶部的铃铛图标"
+        ],
+        "expectation": "应显示通知列表，包含未读/已读状态"
+      },
+      {
+        "name": "40_card_comment_notification",
+        "steps": [
+          "用户已订阅某卡片",
+          "该卡片收到评论"
+        ],
+        "expectation": "订阅者收到通知"
+      },
+      {
+        "name": "41_notification_filtering",
+        "steps": [
+          "存在多条通知",
+          "按项目/看板/用户/卡片过滤"
+        ],
+        "expectation": "仅显示匹配通知"
+      },
+      {
+        "name": "42_activity_log",
+        "steps": [
+          "看板中有操作记录",
+          "查看活动日志"
+        ],
+        "expectation": "显示创建和更新时间"
+      }
+    ]
+  },
+  {
+    "category": "七、API",
+    "feature": "API",
+    "test_cases": [
+      {
+        "name": "43_api_authentication",
+        "steps": [
+          "持有有效Client ID/Secret",
+          "调用API"
+        ],
+        "expectation": "正确响应"
+      },
+      {
+        "name": "44_api_permission_control",
+        "steps": [
+          "用户无对应权限",
+          "调用API"
+        ],
+        "expectation": "返回403"
+      },
+      {
+        "name": "45_create_card_api",
+        "steps": [
+          "已通过API认证",
+          "调用创建卡片API指定列表"
+        ],
+        "expectation": "卡片正确创建到指定列表"
+      }
+    ]
+  },
+  {
+    "category": "八、管理员级功能",
+    "feature": "管理员级功能",
+    "test_cases": [
+      {
+        "name": "46_user_list_management",
+        "steps": [
+          "管理员登录系统",
+          "查看、编辑、删除用户"
+        ],
+        "expectation": "操作生效"
+      },
+      {
+        "name": "47_grant_revoke_admin",
+        "steps": [
+          "管理员登录系统",
+          "授予或撤销管理员权限"
+        ],
+        "expectation": "权限立即生效"
+      },
+      {
+        "name": "48_instance_settings",
+        "steps": [
+          "管理员登录系统",
+          "修改注册开关或域名限制"
+        ],
+        "expectation": "设置生效"
+      },
+      {
+        "name": "49_system_parameter_configuration",
+        "steps": [
+          "管理员登录系统",
+          "设置系统参数并保存"
+        ],
+        "expectation": "重启后配置生效"
+      },
+      {
+        "name": "50_role_permission_assignment",
+        "steps": [
+          "管理员登录系统",
+          "为用户分配角色权限"
+        ],
+        "expectation": "用户获得对应功能访问权"
+      },
+      {
+        "name": "51_system_log_viewing",
+        "steps": [
+          "管理员登录系统",
+          "按时间、类型筛选查看日志"
+        ],
+        "expectation": "日志记录完整"
+      },
+      {
+        "name": "52_system_resource_monitoring",
+        "steps": [
+          "系统正常运行",
+          "查看CPU、内存使用率"
+        ],
+        "expectation": "使用率正常，无内存泄漏"
+      },
+      {
+        "name": "53_project_manager_level_permissions",
+        "steps": [
+          "以项目经理身份登录系统",
+          "管理项目内内容，添加新成员，创建新看板"
+        ],
+        "expectation": "系统应允许执行所有操作"
+      },
+      {
+        "name": "54_admin_level_permissions",
+        "steps": [
+          "以管理员身份登录系统",
+          "访问实例设置，创建新项目"
+        ],
+        "expectation": "系统应允许执行所有操作"
+      },
+      {
+        "name": "55_admin_manual_add_user",
+        "steps": [
+          "管理员/普通用户登录",
+          "管理员添加用户 / 普通用户尝试添加"
+        ],
+        "expectation": "管理员可添加，普通用户不可"
+      },
+      {
+        "name": "56_modify_user_information",
+        "steps": [
+          "以管理员身份登录系统，进入实例设置",
+          "点击用户行的铅笔图标，修改用户信息并保存"
+        ],
+        "expectation": "用户信息应被成功更新"
+      },
+      {
+        "name": "57_view_account_activity",
+        "steps": [
+          "以管理员身份登录系统，进入实例设置",
+          "点击用户行的铅笔图标，查看账户活动"
+        ],
+        "expectation": "应显示账户创建时间和信息更新时间"
+      }
+    ]
+  },
+  {
+    "category": "九、列表管理",
+    "feature": "列表管理",
+    "test_cases": [
+      {
+        "name": "58_create_list",
+        "steps": [
+          "以编辑者或以上权限的用户登录系统，打开看板",
+          "点击\"+add list\"按钮，输入列表名称"
+        ],
+        "expectation": "列表应被成功创建"
+      },
+      {
+        "name": "59_edit_list",
+        "steps": [
+          "以编辑者或以上权限的用户登录系统，打开看板",
+          "点击列表右上角的省略号图标，选择\"Edit list\""
+        ],
+        "expectation": "列表名称应可编辑并保存"
+      },
+      {
+        "name": "60_delete_list",
+        "steps": [
+          "以编辑者或以上权限的用户登录系统，打开看板",
+          "点击列表右上角的省略号图标，选择\"Delete list\"，确认删除"
+        ],
+        "expectation": "列表应被成功删除"
+      },
+      {
+        "name": "61_list_navigation",
+        "steps": [
+          "以任何身份登录系统，打开看板",
+          "拖动列表改变位置，使用Shift+Scroll水平滚动"
+        ],
+        "expectation": "列表应能正确移动位置，滚动功能应正常"
+      },
+      {
+        "name": "62_list_hide_show",
+        "steps": [
+          "以任何身份登录系统，打开看板",
+          "点击列表左上角的三角形按钮"
+        ],
+        "expectation": "列表应隐藏/显示，隐藏时应显示包含的卡片数量"
+      }
+    ]
+  },
+  {
+    "category": "十、个人设置",
+    "feature": "个人设置",
+    "test_cases": [
+      {
+        "name": "63_personal_profile_settings",
+        "steps": [
+          "以任何身份登录系统，进入设置",
+          "上传头像，修改显示名称和其他信息"
+        ],
+        "expectation": "个人资料应被成功更新"
+      },
+      {
+        "name": "64_preference_settings",
+        "steps": [
+          "以任何身份登录系统，进入设置",
+          "修改语言、主题、默认视图等偏好"
+        ],
+        "expectation": "偏好设置应被成功保存并应用"
+      },
+      {
+        "name": "65_account_settings",
+        "steps": [
+          "以任何身份登录系统，进入设置",
+          "修改用户名和/或电子邮件地址"
+        ],
+        "expectation": "账户信息应被成功更新"
+      },
+      {
+        "name": "66_authentication_settings",
+        "steps": [
+          "以任何身份登录系统，进入设置",
+          "修改密码"
+        ],
+        "expectation": "密码应被成功更新"
+      }
+    ]
+  },
+  {
+    "category": "十一、视图管理",
+    "feature": "视图管理",
+    "test_cases": [
+      {
+        "name": "67_switch_views",
+        "steps": [
+          "以任何身份登录系统，打开看板",
+          "点击工具栏上的视图切换按钮"
+        ],
+        "expectation": "应在看板视图和列表视图之间切换"
+      },
+      {
+        "name": "68_list_view_sorting",
+        "steps": [
+          "以任何身份登录系统，打开列表视图",
+          "点击列标题进行排序，选择多列排序"
+        ],
+        "expectation": "列表应按照排序条件显示"
+      },
+      {
+        "name": "69_list_view_column_management",
+        "steps": [
+          "以任何身份登录系统，打开列表视图",
+          "使用列表菜单添加/删除列，调整列宽"
+        ],
+        "expectation": "列表视图应按照调整后的设置显示"
+      }
+    ]
+  },
+  {
+    "category": "十二、日志管理",
+    "feature": "日志管理",
+    "test_cases": [
+      {
+        "name": "70_configure_log_exposure",
+        "steps": [
+          "系统已安装4ga Boards，编辑docker-compose.yml文件",
+          "添加./logs/:/app/logs/到volumes"
+        ],
+        "expectation": "日志目录应被暴露到主机机器"
+      },
+      {
+        "name": "71_configure_log_rotation",
+        "steps": [
+          "系统已安装4ga Boards，创建logrotate配置文件",
+          "在/etc/logrotate.d/创建4gaBoards配置文件"
+        ],
+        "expectation": "日志应按照配置自动轮转"
+      },
+      {
+        "name": "72_configure_fail2ban",
+        "steps": [
+          "系统已安装4ga Boards，创建fail2ban配置文件",
+          "在/etc/fail2ban/filter.d/和/etc/fail2ban/jail.d/创建配置文件"
+        ],
+        "expectation": "Fail2ban应能检测并阻止失败的认证尝试"
+      }
+    ]
+  }
+]

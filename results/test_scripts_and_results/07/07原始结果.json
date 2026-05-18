@@ -1,0 +1,77 @@
+{
+  "runId": "1781348656718-oo4308",
+  "navigationCount": 3,
+  "navigationLog": [
+    "api-board: https://demo.4gaboards.com/boards/1796479668522584035",
+    "api-board: https://demo.4gaboards.com/boards/1796479843836102649",
+    "api-board: https://demo.4gaboards.com/boards/1796479970604745746"
+  ],
+  "summary": {
+    "pass": 3
+  },
+  "results": [
+    {
+      "caseNo": "01",
+      "name": "API认证",
+      "status": "pass",
+      "given": [
+        "持有有效Client ID/Secret"
+      ],
+      "when": [
+        "调用API"
+      ],
+      "expectation": "正确响应",
+      "actual": "API认证 调用获得正确响应。",
+      "evidence": [],
+      "apiEvidence": [
+        "POST /api/api-clients 返回 200",
+        "API认证 调用返回 200，响应：{\"items\":[{\"id\":\"1796447832211719745\",\"createdAt\":\"2026-06-13T10:01:09.000Z\",\"updatedAt\":\"2026-06-13T10:01:10.000Z\",\"name\":\"Getting started\",\"background\":null,\"createdById\":\"1796447773978003006\",\"updatedById\":\"1796447773978003006\",\"isSubscribed\":true,\"backgroundImage\":null},{\"id\":\"1796447978290939563\",\"createdAt\":\"2026-06-13T10:01:27.000Z\",\"updatedAt\":null,\"name\":\"agent-project-1781344883716-hs7hve\",\"background\":null,\"createdById\":\"1796447773978003006\",\"updatedById\":null,\"isSubscribed\":true,\"bac..."
+      ],
+      "screenshots": [
+        "D:\\VSCode\\playwright\\results\\07\\screenshots\\01-api-board.png"
+      ]
+    },
+    {
+      "caseNo": "02",
+      "name": "权限控制",
+      "status": "pass",
+      "given": [
+        "用户无对应权限"
+      ],
+      "when": [
+        "调用API"
+      ],
+      "expectation": "返回403",
+      "actual": "低权限 API client 调用受限接口被拒绝。",
+      "evidence": [],
+      "apiEvidence": [
+        "POST /api/api-clients 返回 200",
+        "权限控制 调用返回 401，响应：{\"code\":\"E_UNAUTHORIZED\",\"message\":\"Invalid client credentials\"}"
+      ],
+      "screenshots": [
+        "D:\\VSCode\\playwright\\results\\07\\screenshots\\02-api-board.png"
+      ]
+    },
+    {
+      "caseNo": "03",
+      "name": "创建卡片API",
+      "status": "pass",
+      "given": [
+        "已通过API认证"
+      ],
+      "when": [
+        "调用创建卡片API指定列表"
+      ],
+      "expectation": "卡片正确创建到指定列表",
+      "actual": "创建卡片API 调用获得正确响应。",
+      "evidence": [],
+      "apiEvidence": [
+        "POST /api/api-clients 返回 200",
+        "创建卡片API 调用返回 200，响应：{\"item\":{\"id\":\"1796479988019495966\",\"createdAt\":\"2026-06-13T11:05:03.000Z\",\"updatedAt\":null,\"position\":81919,\"name\":\"api-card-1781348656718-oo4308\",\"description\":null,\"dueDate\":null,\"timer\":null,\"commentCount\":0,\"isCreatedViaApi\":true,\"mailCreatorAddress\":null,\"boardId\":\"1796479970604745746\",\"listId\":\"1796479975428195350\",\"createdById\":\"1796447773978003006\",\"updatedById\":null,\"coverAttachmentId\":null}}"
+      ],
+      "screenshots": [
+        "D:\\VSCode\\playwright\\results\\07\\screenshots\\03-api-board.png"
+      ]
+    }
+  ]
+}

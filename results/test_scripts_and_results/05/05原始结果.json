@@ -1,0 +1,108 @@
+{
+  "runId": "1781355976150-gnl21m",
+  "navigationCount": 4,
+  "navigationLog": [
+    "permission-matrix-board: https://demo.4gaboards.com/boards/1796541027121628626",
+    "permission-matrix-board: https://demo.4gaboards.com/boards/1796541343003051512",
+    "permission-matrix-board: https://demo.4gaboards.com/boards/1796541602387199514",
+    "permission-matrix-board: https://demo.4gaboards.com/boards/1796541909343143481"
+  ],
+  "summary": {
+    "pass": 4
+  },
+  "results": [
+    {
+      "caseNo": "01",
+      "name": "Project Manager权限",
+      "status": "pass",
+      "given": [
+        "用户角色为Project Manager"
+      ],
+      "when": [
+        "管理看板、添加成员"
+      ],
+      "expectation": "操作生效",
+      "actual": "Project Manager权限 可查看并执行编辑类操作。",
+      "evidence": [],
+      "apiEvidence": [
+        "授予 Project Manager 返回 200",
+        "角色配置 role=viewer, canComment=false",
+        "GET board 返回 200",
+        "POST card 返回 200",
+        "POST comment 返回 200"
+      ],
+      "screenshots": [
+        "D:\\VSCode\\playwright\\results\\05\\screenshots\\01-permission-matrix-board.png"
+      ]
+    },
+    {
+      "caseNo": "02",
+      "name": "Editor权限",
+      "status": "pass",
+      "given": [
+        "用户角色为Editor"
+      ],
+      "when": [
+        "创建/删除任务和列表"
+      ],
+      "expectation": "操作生效",
+      "actual": "Editor权限 可查看并执行编辑类操作。",
+      "evidence": [],
+      "apiEvidence": [
+        "角色配置 role=editor, canComment=false",
+        "GET board 返回 200",
+        "POST card 返回 200",
+        "POST comment 返回 200"
+      ],
+      "screenshots": [
+        "D:\\VSCode\\playwright\\results\\05\\screenshots\\02-permission-matrix-board.png"
+      ]
+    },
+    {
+      "caseNo": "03",
+      "name": "Commenter权限",
+      "status": "pass",
+      "given": [
+        "用户角色为Commenter"
+      ],
+      "when": [
+        "查看内容或发表评论"
+      ],
+      "expectation": "可查看+评论",
+      "actual": "Commenter 可查看并评论，但不能编辑卡片。",
+      "evidence": [],
+      "apiEvidence": [
+        "角色配置 role=viewer, canComment=true",
+        "GET board 返回 200",
+        "POST card 返回 403",
+        "POST comment 返回 200"
+      ],
+      "screenshots": [
+        "D:\\VSCode\\playwright\\results\\05\\screenshots\\03-permission-matrix-board.png"
+      ]
+    },
+    {
+      "caseNo": "04",
+      "name": "Viewer权限",
+      "status": "pass",
+      "given": [
+        "用户角色为Viewer"
+      ],
+      "when": [
+        "查看看板"
+      ],
+      "expectation": "仅可查看",
+      "actual": "Viewer 可查看但不可编辑或评论。",
+      "evidence": [],
+      "apiEvidence": [
+        "角色配置 role=viewer, canComment=false",
+        "GET board 返回 200",
+        "POST card 返回 403",
+        "POST comment 返回 403"
+      ],
+      "screenshots": [
+        "D:\\VSCode\\playwright\\results\\05\\screenshots\\04-permission-matrix-board.png"
+      ]
+    }
+  ]
+}

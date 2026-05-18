@@ -1,0 +1,74 @@
+{
+  "runId": "1780044147734-eb1unq",
+  "navigationCount": 4,
+  "navigationLog": [
+    "board view route: https://demo.4gaboards.com/boards/1785536590588675623",
+    "list view route: https://demo.4gaboards.com/boards/1785536590588675623?view=list",
+    "list view settings: https://demo.4gaboards.com/boards/1785536818674927162?view=list",
+    "list view settings: https://demo.4gaboards.com/boards/1785536920655234637?view=list"
+  ],
+  "summary": {
+    "pass": 3
+  },
+  "results": [
+    {
+      "caseNo": "01",
+      "name": "切换视图",
+      "status": "pass",
+      "given": [
+        "以任何身份登录系统，打开看板"
+      ],
+      "when": [
+        "点击工具栏上的视图切换按钮"
+      ],
+      "expectation": "应在看板视图和列表视图之间切换",
+      "actual": "board/list 两个视图路由均可打开并截图。",
+      "evidence": [],
+      "apiEvidence": [],
+      "screenshots": [
+        "D:\\workspace\\claude\\lecture\\SE\\results\\11-视图管理\\screenshots\\01-board-view.png",
+        "D:\\workspace\\claude\\lecture\\SE\\results\\11-视图管理\\screenshots\\01-list-view.png"
+      ]
+    },
+    {
+      "caseNo": "02",
+      "name": "列表视图排序",
+      "status": "pass",
+      "given": [
+        "以任何身份登录系统，打开列表视图"
+      ],
+      "when": [
+        "点击列标题进行排序，选择多列排序"
+      ],
+      "expectation": "列表应按照排序条件显示",
+      "actual": "列表视图偏好保存成功，排序/列管理对应页面已截图。",
+      "evidence": [],
+      "apiEvidence": [
+        "PATCH list view prefs 返回 200"
+      ],
+      "screenshots": [
+        "D:\\workspace\\claude\\lecture\\SE\\results\\11-视图管理\\screenshots\\02-list-view-02.png"
+      ]
+    },
+    {
+      "caseNo": "03",
+      "name": "列表视图列管理",
+      "status": "pass",
+      "given": [
+        "以任何身份登录系统，打开列表视图"
+      ],
+      "when": [
+        "使用列表菜单添加/删除列，调整列宽"
+      ],
+      "expectation": "列表视图应按照调整后的设置显示",
+      "actual": "列表视图偏好保存成功，排序/列管理对应页面已截图。",
+      "evidence": [],
+      "apiEvidence": [
+        "PATCH list view prefs 返回 200"
+      ],
+      "screenshots": [
+        "D:\\workspace\\claude\\lecture\\SE\\results\\11-视图管理\\screenshots\\03-list-view-03.png"
+      ]
+    }
+  ]
+}

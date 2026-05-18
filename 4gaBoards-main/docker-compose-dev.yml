@@ -1,0 +1,23 @@
+services:
+  db:
+    image: postgres:16-alpine
+    restart: unless-stopped
+    volumes:
+      - db-data:/var/lib/postgresql/data
+    networks:
+      - boards-network
+    ports:
+      - 5432:5432
+    environment:
+      - POSTGRES_DB=4gaBoards
+      - POSTGRES_HOST_AUTH_METHOD=trust
+    healthcheck:
+      test: ['CMD-SHELL', 'pg_isready -U postgres -d 4gaBoards']
+      interval: 5s
+      timeout: 5s
+      retries: 20
+
+volumes:
+  db-data:
+networks:
+  boards-network:

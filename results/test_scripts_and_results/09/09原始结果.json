@@ -1,0 +1,116 @@
+{
+  "runId": "1781349322781-4vi7um",
+  "navigationCount": 5,
+  "navigationLog": [
+    "list-01: https://demo.4gaboards.com/boards/1796485229062390976",
+    "list-02: https://demo.4gaboards.com/boards/1796485396641613014",
+    "list-03: https://demo.4gaboards.com/boards/1796485517353682155",
+    "list-04: https://demo.4gaboards.com/boards/1796485649700750596",
+    "list-05: https://demo.4gaboards.com/boards/1796485793338885401"
+  ],
+  "summary": {
+    "pass": 5
+  },
+  "results": [
+    {
+      "caseNo": "01",
+      "name": "创建列表",
+      "status": "pass",
+      "given": [
+        "以编辑者或以上权限的用户登录系统，打开看板"
+      ],
+      "when": [
+        "点击\"+add list\"按钮，输入列表名称"
+      ],
+      "expectation": "列表应被成功创建",
+      "actual": "列表创建成功。",
+      "evidence": [],
+      "apiEvidence": [
+        "POST /api/boards/1796485229062390976/lists 返回 id：1796485252827317454"
+      ],
+      "screenshots": [
+        "D:\\VSCode\\playwright\\results\\09\\screenshots\\01-list-01.png"
+      ]
+    },
+    {
+      "caseNo": "02",
+      "name": "编辑列表",
+      "status": "pass",
+      "given": [
+        "以编辑者或以上权限的用户登录系统，打开看板"
+      ],
+      "when": [
+        "点击列表右上角的省略号图标，选择\"Edit list\""
+      ],
+      "expectation": "列表名称应可编辑并保存",
+      "actual": "列表名称可编辑保存。",
+      "evidence": [],
+      "apiEvidence": [
+        "PATCH /api/lists/1796485401733498074 返回 200"
+      ],
+      "screenshots": [
+        "D:\\VSCode\\playwright\\results\\09\\screenshots\\02-list-02.png"
+      ]
+    },
+    {
+      "caseNo": "03",
+      "name": "删除列表",
+      "status": "pass",
+      "given": [
+        "以编辑者或以上权限的用户登录系统，打开看板"
+      ],
+      "when": [
+        "点击列表右上角的省略号图标，选择\"Delete list\"，确认删除"
+      ],
+      "expectation": "列表应被成功删除",
+      "actual": "列表可删除。",
+      "evidence": [],
+      "apiEvidence": [
+        "DELETE /api/lists/1796485550639678713 返回 200"
+      ],
+      "screenshots": [
+        "D:\\VSCode\\playwright\\results\\09\\screenshots\\03-list-03.png"
+      ]
+    },
+    {
+      "caseNo": "04",
+      "name": "列表导航",
+      "status": "pass",
+      "given": [
+        "以任何身份登录系统，打开看板"
+      ],
+      "when": [
+        "拖动列表改变位置，使用Shift+Scroll水平滚动"
+      ],
+      "expectation": "列表应能正确移动位置，滚动功能应正常",
+      "actual": "列表位置可更新；水平滚动表现已截图。",
+      "evidence": [],
+      "apiEvidence": [
+        "PATCH list position 返回 200"
+      ],
+      "screenshots": [
+        "D:\\VSCode\\playwright\\results\\09\\screenshots\\04-list-04.png"
+      ]
+    },
+    {
+      "caseNo": "05",
+      "name": "列表隐藏/显示",
+      "status": "pass",
+      "given": [
+        "以任何身份登录系统，打开看板"
+      ],
+      "when": [
+        "点击列表左上角的三角形按钮"
+      ],
+      "expectation": "列表应隐藏/显示，隐藏时应显示包含的卡片数量",
+      "actual": "列表隐藏/显示状态可切换。",
+      "evidence": [],
+      "apiEvidence": [
+        "折叠 PATCH 返回 200，展开 PATCH 返回 200"
+      ],
+      "screenshots": [
+        "D:\\VSCode\\playwright\\results\\09\\screenshots\\05-list-05.png"
+      ]
+    }
+  ]
+}

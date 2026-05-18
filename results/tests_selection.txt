@@ -1,0 +1,22 @@
+元宝（深度思考）：
+文件名称	覆盖范围	步骤清晰度	期望明确性	结构合理性	实用性	总分
+tests_bm25.json	2	2	2	2	1.5	9.5
+tests_full.json	2	2	2	2	1.8	9.8
+tests_hybrid.json	2	2	2	2	1.9	9.9
+tests_vec.json	2	2	2	2	2	10
+
+DeepSeek（深度思考，联网搜索）
+文件名称	覆盖范围	步骤清晰度	期望明确性	结构合理性	实用性	平均分
+tests_full.json	10	9	10	10	10	9.8
+tests_hybrid.json	10	10	9	10	9	9.6
+tests_vec.json	10	9	9	10	9	9.4
+tests_bm25.json	9	9	9	10	9	9.2
+
+MiniMax
+维度	文件 A (tests_bm25)	文件 B (tests_full)	文件 C (tests_hybrid)	文件 D (tests_vec)
+覆盖范围	8	8	9	9
+步骤清晰度	9	8	8	8
+期望明确性	6	9	8	8
+结构合理性	9	9	9	9
+实用性	8	8	9	9
+平均	8.0	8.4	8.6	8.6

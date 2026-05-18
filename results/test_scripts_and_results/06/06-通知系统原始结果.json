@@ -1,0 +1,100 @@
+{
+  "runId": "1780043815668-n0drtw",
+  "navigationCount": 4,
+  "navigationLog": [
+    "notifications-board: https://demo.4gaboards.com/boards/1785533810125833309",
+    "notifications-board: https://demo.4gaboards.com/boards/1785534312326628474",
+    "notifications-board: https://demo.4gaboards.com/boards/1785534394652427420",
+    "notifications-board: https://demo.4gaboards.com/boards/1785534468027581625"
+  ],
+  "summary": {
+    "pass": 3,
+    "blocked": 1
+  },
+  "results": [
+    {
+      "caseNo": "01",
+      "name": "查看通知",
+      "status": "pass",
+      "given": [
+        "以任何身份登录系统"
+      ],
+      "when": [
+        "点击顶部的铃铛图标"
+      ],
+      "expectation": "应显示通知列表，包含未读/已读状态",
+      "actual": "通知列表接口可读取；页面截图留证通知入口/看板状态。",
+      "evidence": [],
+      "apiEvidence": [
+        "GET /api/notifications 返回 200，数量：1",
+        "GET /api/boards/1785533810125833309/actions 返回 200，数量：5"
+      ],
+      "screenshots": [
+        "D:\\workspace\\claude\\lecture\\SE\\results\\06-通知系统\\screenshots\\01-notifications-board.png"
+      ]
+    },
+    {
+      "caseNo": "02",
+      "name": "卡片评论通知",
+      "status": "pass",
+      "given": [
+        "用户已订阅某卡片"
+      ],
+      "when": [
+        "该卡片收到评论"
+      ],
+      "expectation": "订阅者收到通知",
+      "actual": "通知列表接口可读取；页面截图留证通知入口/看板状态。",
+      "evidence": [],
+      "apiEvidence": [
+        "GET /api/notifications 返回 200，数量：2",
+        "GET /api/boards/1785534312326628474/actions 返回 200，数量：6"
+      ],
+      "screenshots": [
+        "D:\\workspace\\claude\\lecture\\SE\\results\\06-通知系统\\screenshots\\02-notifications-board.png"
+      ]
+    },
+    {
+      "caseNo": "03",
+      "name": "通知过滤",
+      "status": "blocked",
+      "given": [
+        "存在多条通知"
+      ],
+      "when": [
+        "按项目/看板/用户/卡片过滤"
+      ],
+      "expectation": "仅显示匹配通知",
+      "actual": "公开路由未提供独立通知过滤接口；已记录通知列表和活动数据，过滤能力需在页面表格 UI 中人工复核。",
+      "evidence": [],
+      "apiEvidence": [
+        "GET /api/notifications 返回 200，数量：1",
+        "GET /api/boards/1785534394652427420/actions 返回 200，数量：5"
+      ],
+      "screenshots": [
+        "D:\\workspace\\claude\\lecture\\SE\\results\\06-通知系统\\screenshots\\03-notifications-board.png"
+      ]
+    },
+    {
+      "caseNo": "04",
+      "name": "活动日志",
+      "status": "pass",
+      "given": [
+        "看板中有操作记录"
+      ],
+      "when": [
+        "查看活动日志"
+      ],
+      "expectation": "显示创建和更新时间",
+      "actual": "看板活动日志接口返回操作记录。",
+      "evidence": [],
+      "apiEvidence": [
+        "GET /api/notifications 返回 200，数量：1",
+        "GET /api/boards/1785534468027581625/actions 返回 200，数量：5"
+      ],
+      "screenshots": [
+        "D:\\workspace\\claude\\lecture\\SE\\results\\06-通知系统\\screenshots\\04-notifications-board.png"
+      ]
+    }
+  ]
+}

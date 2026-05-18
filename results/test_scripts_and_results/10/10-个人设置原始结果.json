@@ -1,0 +1,95 @@
+{
+  "runId": "1780044427875-ooiml3",
+  "navigationCount": 4,
+  "navigationLog": [
+    "profile settings: https://demo.4gaboards.com/settings/profile",
+    "preferences settings: https://demo.4gaboards.com/settings/preferences",
+    "account settings: https://demo.4gaboards.com/settings/account",
+    "authentication settings: https://demo.4gaboards.com/settings/authentication"
+  ],
+  "summary": {
+    "pass": 4
+  },
+  "results": [
+    {
+      "caseNo": "01",
+      "name": "个人资料设置",
+      "status": "pass",
+      "given": [
+        "以任何身份登录系统，进入设置"
+      ],
+      "when": [
+        "上传头像，修改显示名称和其他信息"
+      ],
+      "expectation": "个人资料应被成功更新",
+      "actual": "个人资料名称更新成功。",
+      "evidence": [],
+      "apiEvidence": [
+        "PATCH /api/users/me name 返回 200"
+      ],
+      "screenshots": [
+        "D:\\workspace\\claude\\lecture\\SE\\results\\10-个人设置\\screenshots\\01-settings-01.png"
+      ]
+    },
+    {
+      "caseNo": "02",
+      "name": "偏好设置",
+      "status": "pass",
+      "given": [
+        "以任何身份登录系统，进入设置"
+      ],
+      "when": [
+        "修改语言、主题、默认视图等偏好"
+      ],
+      "expectation": "偏好设置应被成功保存并应用",
+      "actual": "语言、主题、默认视图偏好保存成功。",
+      "evidence": [],
+      "apiEvidence": [
+        "PATCH /api/user-prefs/1782461929894184612 返回 200"
+      ],
+      "screenshots": [
+        "D:\\workspace\\claude\\lecture\\SE\\results\\10-个人设置\\screenshots\\02-settings-02.png"
+      ]
+    },
+    {
+      "caseNo": "03",
+      "name": "账户设置",
+      "status": "pass",
+      "given": [
+        "以任何身份登录系统，进入设置"
+      ],
+      "when": [
+        "修改用户名和/或电子邮件地址"
+      ],
+      "expectation": "账户信息应被成功更新",
+      "actual": "用户名账户信息更新成功。",
+      "evidence": [],
+      "apiEvidence": [
+        "PATCH /api/users/1782461929894184612/username 返回 200"
+      ],
+      "screenshots": [
+        "D:\\workspace\\claude\\lecture\\SE\\results\\10-个人设置\\screenshots\\03-settings-03.png"
+      ]
+    },
+    {
+      "caseNo": "04",
+      "name": "认证设置",
+      "status": "pass",
+      "given": [
+        "以任何身份登录系统，进入设置"
+      ],
+      "when": [
+        "修改密码"
+      ],
+      "expectation": "密码应被成功更新",
+      "actual": "密码更新接口接受当前密码并保存。",
+      "evidence": [],
+      "apiEvidence": [
+        "PATCH /api/users/1782461929894184612/password 返回 200"
+      ],
+      "screenshots": [
+        "D:\\workspace\\claude\\lecture\\SE\\results\\10-个人设置\\screenshots\\04-settings-04.png"
+      ]
+    }
+  ]
+}

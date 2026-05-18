@@ -1,0 +1,202 @@
+{
+  "runId": "1780045511346-odfa8v",
+  "navigationCount": 10,
+  "navigationLog": [
+    "dashboard after create project: https://demo.4gaboards.com/",
+    "ordinary user dashboard: https://demo.4gaboards.com/",
+    "created board: https://demo.4gaboards.com/boards/1785548448498451857",
+    "board view: https://demo.4gaboards.com/boards/1785549008530310563",
+    "list view: https://demo.4gaboards.com/boards/1785549008530310563?view=list",
+    "dashboard after delete project: https://demo.4gaboards.com/",
+    "project settings after rename: https://demo.4gaboards.com/projects/1785549917855417801/settings",
+    "dashboard project entry: https://demo.4gaboards.com/",
+    "project board entry: https://demo.4gaboards.com/boards/1785550101599487460",
+    "ordinary user create project state: https://demo.4gaboards.com/"
+  ],
+  "summary": {
+    "pass": 6,
+    "fail": 1,
+    "blocked": 1
+  },
+  "results": [
+    {
+      "caseNo": "01",
+      "name": "创建项目",
+      "status": "pass",
+      "given": [
+        "用户已登录"
+      ],
+      "when": [
+        "创建新项目"
+      ],
+      "expectation": "项目出现在dashboard",
+      "actual": "项目已创建并可在项目列表接口中查到；dashboard 页面已截图留证。",
+      "evidence": [
+        "创建项目名称：agent-project-1780045511346-odfa8v"
+      ],
+      "apiEvidence": [
+        "POST /api/projects 返回项目 id：1785548022843704686",
+        "GET /api/projects 可查到新项目：true"
+      ],
+      "screenshots": [
+        "D:\\workspace\\claude\\lecture\\SE\\results\\02-项目看板管理\\screenshots\\01-dashboard-after-create-project.png"
+      ]
+    },
+    {
+      "caseNo": "02",
+      "name": "项目权限层级",
+      "status": "pass",
+      "given": [
+        "普通用户未被添加到某项目"
+      ],
+      "when": [
+        "查看项目列表"
+      ],
+      "expectation": "仅见被添加的项目",
+      "actual": "普通用户看不到未被添加的项目。",
+      "evidence": [
+        "普通用户：permission_user_1780045511346-odfa8v@example.com",
+        "dashboard 文本是否包含未加入项目名：false"
+      ],
+      "apiEvidence": [
+        "普通用户 GET /api/projects/1785548347373782389 返回 404"
+      ],
+      "screenshots": [
+        "D:\\workspace\\claude\\lecture\\SE\\results\\02-项目看板管理\\screenshots\\02-ordinary-user-dashboard.png"
+      ]
+    },
+    {
+      "caseNo": "03",
+      "name": "创建看板",
+      "status": "pass",
+      "given": [
+        "用户在某项目内"
+      ],
+      "when": [
+        "选择simple/kanban模板创建看板"
+      ],
+      "expectation": "正确生成预设列表",
+      "actual": "看板创建成功，并生成预设列表。",
+      "evidence": [
+        "页面 URL：https://demo.4gaboards.com/boards/1785548448498451857"
+      ],
+      "apiEvidence": [
+        "GET /api/boards/1785548448498451857 列表：[\"To Do\",\"Doing\",\"Done\"]"
+      ],
+      "screenshots": [
+        "D:\\workspace\\claude\\lecture\\SE\\results\\02-项目看板管理\\screenshots\\03-created-board.png"
+      ]
+    },
+    {
+      "caseNo": "04",
+      "name": "看板视图切换",
+      "status": "pass",
+      "given": [
+        "看板中有数据"
+      ],
+      "when": [
+        "board/list view间切换"
+      ],
+      "expectation": "数据同步一致",
+      "actual": "同一看板数据可在 board/list URL 下加载，接口数据一致。",
+      "evidence": [
+        "board/list 两个 URL 均可加载，卡片：[\"view-switch-card-1780045511346-odfa8v\"]"
+      ],
+      "apiEvidence": [
+        "GET /api/boards/1785549008530310563 返回 200"
+      ],
+      "screenshots": [
+        "D:\\workspace\\claude\\lecture\\SE\\results\\02-项目看板管理\\screenshots\\04-board-view.png",
+        "D:\\workspace\\claude\\lecture\\SE\\results\\02-项目看板管理\\screenshots\\04-list-view.png"
+      ]
+    },
+    {
+      "caseNo": "05",
+      "name": "删除项目",
+      "status": "pass",
+      "given": [
+        "用户已登录且项目存在"
+      ],
+      "when": [
+        "确认删除弹窗后删除"
+      ],
+      "expectation": "数据清空",
+      "actual": "项目删除后接口不可再读取，页面已回到 dashboard。",
+      "evidence": [],
+      "apiEvidence": [
+        "DELETE /api/projects/1785549586002085298 返回 200",
+        "删除后 GET /api/projects/1785549586002085298 返回 404"
+      ],
+      "screenshots": [
+        "D:\\workspace\\claude\\lecture\\SE\\results\\02-项目看板管理\\screenshots\\05-dashboard-after-delete.png"
+      ]
+    },
+    {
+      "caseNo": "06",
+      "name": "重命名项目",
+      "status": "pass",
+      "given": [
+        "用户已登录且项目存在"
+      ],
+      "when": [
+        "重命名确认"
+      ],
+      "expectation": "名称更新",
+      "actual": "项目名称已更新。",
+      "evidence": [],
+      "apiEvidence": [
+        "PATCH /api/projects/1785549917855417801 返回 200",
+        "GET /api/projects/1785549917855417801 名称：rename-project-project-1780045511346-odfa8v-renamed"
+      ],
+      "screenshots": [
+        "D:\\workspace\\claude\\lecture\\SE\\results\\02-项目看板管理\\screenshots\\06-project-settings-after-rename.png"
+      ]
+    },
+    {
+      "caseNo": "07",
+      "name": "查看项目",
+      "status": "fail",
+      "given": [
+        "用户已登录且项目存在"
+      ],
+      "when": [
+        "点击查看"
+      ],
+      "expectation": "正确显示项目",
+      "actual": "项目未在 dashboard 或看板入口稳定显示。",
+      "evidence": [
+        "dashboard 文本包含项目名：false",
+        "看板页文本包含项目名或看板名：false"
+      ],
+      "apiEvidence": [
+        "GET /api/projects/1785550095643575775 返回 200"
+      ],
+      "screenshots": [
+        "D:\\workspace\\claude\\lecture\\SE\\results\\02-项目看板管理\\screenshots\\07-dashboard-project-entry.png",
+        "D:\\workspace\\claude\\lecture\\SE\\results\\02-项目看板管理\\screenshots\\07-project-board-entry.png"
+      ]
+    },
+    {
+      "caseNo": "08",
+      "name": "非管理员创建项目",
+      "status": "blocked",
+      "given": [
+        "管理员已禁用普通用户创建项目"
+      ],
+      "when": [
+        "普通用户尝试创建"
+      ],
+      "expectation": "拒绝创建",
+      "actual": "demo 环境禁止修改 projectCreationAllEnabled，无法模拟“管理员已禁用普通用户创建项目”的 Given。",
+      "evidence": [],
+      "apiEvidence": [
+        "当前 demoMode：true",
+        "尝试关闭普通用户创建项目返回 403",
+        "普通用户 POST /api/projects 返回 200，响应体：{\"item\":{\"id\":\"1785550803591759352\",\"createdAt\":\"2026-05-29T09:10:42.000Z\",\"updatedAt\":null,\"name\":\"ordinary-create-1780045511346-odfa8v\",\"background\":null,\"createdById\":\"1785550784281183731\",\"updatedById\":null,\"isSubscribed\":true,\"backgroundImage\":null},\"included\":{\"projectManagers\":[{\"id\":\"1785550..."
+      ],
+      "screenshots": [
+        "D:\\workspace\\claude\\lecture\\SE\\results\\02-项目看板管理\\screenshots\\08-ordinary-user-create-project-state.png"
+      ]
+    }
+  ]
+}
