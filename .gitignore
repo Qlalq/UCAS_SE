@@ -1,0 +1,7 @@
+# Word 临时锁文件
+~\$*.docx
+*.tmp
+
+# Python
+__pycache__/
+*.pyc

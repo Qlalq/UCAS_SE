@@ -110,17 +110,76 @@ def render_table(doc: Document, rows: list[list[str]], header_idx: int = 0) -> N
                     set_cn_font(run, 10, run.bold)
 
 
+def render_cover_table(doc: Document, rows: list[list[str]]) -> None:
+    """封面内的字段表格：无表头底色、左列窄右列宽、整体细边框、字段列右对齐。"""
+    if not rows:
+        return
+    # 直接用第一行作为字段行（cover 内的 markdown table 第一行其实是第一个字段，不是表头）
+    cols = max(len(r) for r in rows)
+    table = doc.add_table(rows=len(rows), cols=cols)
+    table.alignment = WD_ALIGN_PARAGRAPH.CENTER
+    # 关闭 Word 默认网格线，再单独画细边框
+    table.autofit = False
+    widths = [Cm(3.5), Cm(11.0)]
+    for r_idx, row in enumerate(rows):
+        for c_idx in range(cols):
+            cell = table.cell(r_idx, c_idx)
+            cell.width = widths[c_idx] if c_idx < len(widths) else Cm(4.0)
+            cell.vertical_alignment = WD_ALIGN_VERTICAL.CENTER
+            cell_text = row[c_idx] if c_idx < len(row) else ""
+            cell.text = ""
+            para = cell.paragraphs[0]
+            para.alignment = WD_ALIGN_PARAGRAPH.LEFT if c_idx == 0 else WD_ALIGN_PARAGRAPH.LEFT
+            render_inline(para, cell_text, size_pt=12, bold_default=False)
+            # 字段列加灰色细底
+            if c_idx == 0:
+                set_cell_bg(cell, "F2F2F2")
+
+    # 加灰色细边框
+    for row in table.rows:
+        for cell in row.cells:
+            tc_pr = cell._tc.get_or_add_tcPr()
+            tc_borders = OxmlElement("w:tcBorders")
+            for edge in ("top", "left", "bottom", "right"):
+                b = OxmlElement(f"w:{edge}")
+                b.set(qn("w:val"), "single")
+                b.set(qn("w:sz"), "6")
+                b.set(qn("w:color"), "808080")
+                tc_borders.append(b)
+            tc_pr.append(tc_borders)
+
+    # 字体兜底
+    for row in table.rows:
+        for cell in row.cells:
+            for para in cell.paragraphs:
+                for run in para.runs:
+                    set_cn_font(run, 12, False)
+
+
 def parse_md(md_text: str) -> list[tuple[str, object]]:
     """把 Markdown 文本解析为 (kind, payload) 流。
-    kind 可取值：heading1~4, paragraph, table, code, hr, blank.
+    kind 可取值：heading1~4, paragraph, table, code, hr, blank, cover_*, right_para, cover_table.
     """
     lines = md_text.splitlines()
     blocks: list[tuple[str, object]] = []
     i = 0
     n = len(lines)
+    in_cover = False
     while i < n:
         line = lines[i]
         stripped = line.strip()
+
+        # 封面标记
+        if stripped == "<!-- COVER_START -->":
+            blocks.append(("cover_start", ""))
+            in_cover = True
+            i += 1
+            continue
+        if stripped == "<!-- COVER_END -->":
+            blocks.append(("cover_end", ""))
+            in_cover = False
+            i += 1
+            continue
 
         # 空行
         if not stripped:
@@ -162,7 +221,13 @@ def parse_md(md_text: str) -> list[tuple[str, object]]:
             while i < n and lines[i].strip().startswith("|"):
                 rows.append(parse_table_row(lines[i]))
                 i += 1
-            blocks.append(("table", rows))
+            blocks.append(("cover_table" if in_cover else "table", rows))
+            continue
+
+        # 右对齐 paragraph（仅在封面内有效）
+        if in_cover and stripped.startswith("[RIGHT]"):
+            blocks.append(("right_para", stripped[len("[RIGHT]"):].lstrip()))
+            i += 1
             continue
 
         # 无序列表
@@ -191,33 +256,76 @@ def parse_md(md_text: str) -> list[tuple[str, object]]:
 # ---------- 渲染到 docx ----------
 
 def render(doc: Document, blocks: list[tuple[str, object]]) -> None:
+    in_cover = False
     for kind, payload in blocks:
+        if kind == "cover_start":
+            in_cover = True
+            # 封面顶部留白
+            for _ in range(3):
+                doc.add_paragraph()
+            continue
+        if kind == "cover_end":
+            in_cover = False
+            doc.add_page_break()
+            continue
+        if kind == "right_para":
+            p = doc.add_paragraph()
+            p.alignment = WD_ALIGN_PARAGRAPH.RIGHT
+            render_inline(p, str(payload), size_pt=12)
+            continue
         if kind == "blank":
+            if in_cover:
+                # 封面内空行作为段间距
+                doc.add_paragraph()
             continue
         if kind == "hr":
             p = doc.add_paragraph()
+            p.alignment = WD_ALIGN_PARAGRAPH.CENTER
             p.add_run("―" * 30)
             continue
         if kind.startswith("heading"):
             level = int(kind[-1])
-            sizes = {1: 18, 2: 15, 3: 13, 4: 12}
-            text = str(payload)
-            p = doc.add_paragraph()
-            p.alignment = WD_ALIGN_PARAGRAPH.LEFT if level > 1 else WD_ALIGN_PARAGRAPH.CENTER
-            run = p.add_run(text)
-            set_cn_font(run, sizes.get(level, 11), True)
-            if level == 1:
+            if in_cover:
+                # 封面内层级：h1=28pt（大学名、底部日期），h2=32pt（论文类型主标题），h3=16pt（学期）
+                cover_sizes = {1: 28, 2: 32, 3: 16, 4: 14}
+                text = str(payload)
+                p = doc.add_paragraph()
+                p.alignment = WD_ALIGN_PARAGRAPH.CENTER
+                run = p.add_run(text)
+                set_cn_font(run, cover_sizes.get(level, 14), True)
                 run.font.color.rgb = RGBColor(0x1F, 0x4E, 0x79)
-            elif level == 2:
-                run.font.color.rgb = RGBColor(0x2E, 0x74, 0xB5)
-            # 标题前后留白
-            if level <= 2:
-                doc.add_paragraph()
+                if level <= 2:
+                    doc.add_paragraph()
+            else:
+                sizes = {1: 18, 2: 15, 3: 13, 4: 12}
+                text = str(payload)
+                p = doc.add_paragraph()
+                p.alignment = WD_ALIGN_PARAGRAPH.LEFT if level > 1 else WD_ALIGN_PARAGRAPH.CENTER
+                run = p.add_run(text)
+                set_cn_font(run, sizes.get(level, 11), True)
+                if level == 1:
+                    run.font.color.rgb = RGBColor(0x1F, 0x4E, 0x79)
+                elif level == 2:
+                    run.font.color.rgb = RGBColor(0x2E, 0x74, 0xB5)
+                # 标题前后留白
+                if level <= 2:
+                    doc.add_paragraph()
             continue
         if kind == "paragraph":
-            p = doc.add_paragraph()
-            p.paragraph_format.space_after = Pt(4)
-            render_inline(p, str(payload), size_pt=11)
+            if in_cover:
+                p = doc.add_paragraph()
+                p.alignment = WD_ALIGN_PARAGRAPH.LEFT
+                p.paragraph_format.left_indent = Cm(2.0)
+                p.paragraph_format.space_after = Pt(4)
+                render_inline(p, str(payload), size_pt=14)
+            else:
+                p = doc.add_paragraph()
+                p.paragraph_format.space_after = Pt(4)
+                render_inline(p, str(payload), size_pt=11)
+            continue
+        if kind == "cover_table":
+            render_cover_table(doc, payload)  # type: ignore[arg-type]
+            doc.add_paragraph()
             continue
         if kind == "table":
             render_table(doc, payload, header_idx=0)  # type: ignore[arg-type]
